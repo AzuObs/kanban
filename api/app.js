@@ -1,6 +1,6 @@
 var express = require("express"),
 	mongoose = require("mongoose"),
-	router = require(process.cwd() + "/router.js");
+	router = require(process.cwd() + "/routes/router.js");
 
 var app = express();
 router.createRoutes(app);
