@@ -10,12 +10,8 @@ var db = mongoose.connection;
 db.on("error", function(err) {
 	console.log("mongoose didn't connect: " + err);
 });
-db.once("open", function() {
-	console.log("mongoose connected");
-});
 
 app.listen(process.env.PORT || 8000);
-console.log("server listening");
 
 process.on("uncaughtException", function(err) {
 	console.log(err);
