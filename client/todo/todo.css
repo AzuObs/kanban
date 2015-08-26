@@ -1,0 +1,7 @@
+th:first-child {
+  width: 100px;
+}
+
+.form-control {
+  height: 22px;
+}
