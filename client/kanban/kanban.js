@@ -4,14 +4,14 @@
 	var toDoModule = angular.module("toDoModule", ["ui.router", "ui.bootstrap", "taskModule"]);
 
 	toDoModule.config(function($stateProvider) {
-		$stateProvider.state("toDo", {
-			url: "/todo",
-			templateUrl: "todo/todo.html",
-			controller: "toDoController"
+		$stateProvider.state("kanban", {
+			url: "/kanban",
+			templateUrl: "kanban/kanban.html",
+			controller: "kanbanController"
 		});
 	});
 
-	toDoModule.controller("toDoController", function($scope, $log, Task) {
+	toDoModule.controller("kanbanController", function($scope, $log, Task) {
 		function init() {
 			$scope.getTasks();
 			$scope.currentPage = 1;

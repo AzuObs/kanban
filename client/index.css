@@ -10,6 +10,10 @@
   color: #bbb;
 }
 
+.navbar a:hover {
+  color: #eee;
+}
+
 .navbar-brand img {
   height: 25px;
   width: 25px;
