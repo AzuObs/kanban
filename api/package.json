@@ -1,5 +1,5 @@
 {
-  "name": "fullstack-todo-app",
+  "name": "kanban",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -16,6 +16,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AzuObs/To-Do-App"
+    "url": "https://github.com/AzuObs/kanban"
   }
 }

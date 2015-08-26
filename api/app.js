@@ -1,29 +1,18 @@
 var express = require("express"),
 	mongoose = require("mongoose"),
-	Tasks = require(process.cwd() + "/controllers/tasks.js");
+	router = require(process.cwd() + "/router.js");
 
 var app = express();
-var router = express.Router();
+router.createRoutes(app);
 
-
-mongoose.connect(process.env.MONGOLAB_URI || "mongodb://localhost/to-do-app:27017", function(err) {
-	if (err) console.log("mongoose didn't connect: " + err);
+mongoose.connect(process.env.MONGOLAB_URI || "mongodb://localhost/kanban:27017");
+var db = mongoose.connection;
+db.on("error", function(err) {
+	console.log("mongoose didn't connect: " + err);
 });
-
-router.all("*", function(req, res, next) {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "Content-Type, Token");
-	res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
-	next();
+db.once("open", function() {
+	console.log("mongoose connected");
 });
-
-router.get("/tasks", Tasks.getTasks);
-router.post("/tasks/:content", Tasks.createTask);
-router.put("/tasks/:id/content/:content", Tasks.editTaskById);
-router.delete("/tasks/:id", Tasks.deleteTaskById);
-
-app.use("/app", router);
-
 
 app.listen(process.env.PORT || 8000);
 console.log("server listening");
