@@ -3,10 +3,11 @@
 
 	var mongoose = require("mongoose");
 	var Schema = mongoose.Schema;
+	var taskSchema = require(process.cwd() + "/schemas/tasks.js");
 
 	var categorySchema = new Schema({
 		name: String,
-		taskIds: [Schema.Types.ObjectId]
+		tasks: [taskSchema]
 	});
 
 	module.exports = categorySchema;
