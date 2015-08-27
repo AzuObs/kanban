@@ -13,7 +13,7 @@
 
 
 	exports.getKanban = function(req, res, next) {
-		Kanban.find(function(err, kanban) {
+		Kanban.findOne(function(err, kanban) {
 			if (err) return res.send(err);
 			res.json(kanban);
 		});

@@ -1,7 +1,7 @@
 (function() {
 	"use strict";
 
-	var toDoModule = angular.module("toDoModule", ["ui.router", "ui.bootstrap", "taskModule"]);
+	var toDoModule = angular.module("toDoModule", ["ui.router", "ui.bootstrap", "kanbanModule"]);
 
 	toDoModule.config(function($stateProvider) {
 		$stateProvider.state("kanban", {
@@ -11,59 +11,20 @@
 		});
 	});
 
-	toDoModule.controller("kanbanController", function($scope, $log, Task) {
+	toDoModule.controller("kanbanController", function($scope, $log, Kanban) {
 		function init() {
-			$scope.getTasks();
-			$scope.currentPage = 1;
-			$scope.maxItems = 5;
+			$scope.getKanban();
 		}
 
-		$scope.getTasks = function() {
-			Task.getTasks()
+		$scope.getKanban = function() {
+			Kanban
+				.getKanban()
 				.then(function(res) {
-					$scope.tasks = Task.tasks;
+					$scope.kanban = res;
+					console.log($scope.kanban);
 				}, function(err) {
 					$log.log(err);
 				});
-		};
-
-		$scope.createTask = function(content) {
-			Task.createTask(content)
-				.then(function(res) {
-					$scope.getTasks();
-				}, function(err) {
-					$log.log(err);
-				});
-		};
-
-		$scope.editTask = function(task) {
-			if (task.editting) {
-				Task.editTask(task._id, task.content)
-					.then(function(res) {
-						$scope.getTasks();
-					}, function(err) {
-						$log.log(err);
-					});
-			}
-
-			if (task.editting === "undefined") {
-				task.editting = true;
-			} else {
-				task.editting = !task.editting;
-			}
-		};
-
-		$scope.deleteTask = function(id) {
-			Task.deleteTask(id)
-				.then(function(res) {
-					$scope.getTasks();
-				}, function(err) {
-					$log.log(err);
-				});
-		};
-
-		$scope.toggleEditting = function(id) {
-
 		};
 
 		init();
