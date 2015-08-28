@@ -7,7 +7,7 @@
 		$rootScope.endPoint = "http://localhost:8000/api/";
 	});
 
-	kanbanServices.service("Kanban", function($log, $rootScope, $q, $http) {
+	kanbanServices.service("kanbanService", function($log, $rootScope, $q, $http) {
 		var Kanban = this;
 		Kanban.kanban = {};
 
@@ -26,8 +26,64 @@
 			return defer.promise;
 		};
 
+		Kanban.createCategory = function(name) {
+			var defer = $q.defer();
 
+			$http
+				.post($rootScope.endPoint + "/category/" + name)
+				.success(function(res) {
+					defer.resolve(res);
+				})
+				.error(function(err) {
+					defer.reject(err);
+				});
+
+			return defer.promise;
+		};
+
+		Kanban.deleteCategory = function(id) {
+			var defer = $q.defer();
+
+			$http
+				.delete($rootScope.endPoint + "/category/" + id)
+				.success(function(res) {
+					defer.resolve(res);
+				})
+				.error(function(err) {
+					defer.reject(err);
+				});
+
+			return defer.promise;
+		};
+
+		Kanban.createTask = function(name, cId) {
+			var defer = $q.defer();
+
+			$http
+				.post($rootScope.endPoint + "/task/" + cId + "/" + name)
+				.success(function(res) {
+					defer.resolve(res);
+				})
+				.error(function(err) {
+					defer.reject(err);
+				});
+
+			return defer.promise;
+		};
+
+		Kanban.deleteTask = function(cId, tId) {
+			var defer = $q.defer();
+
+			$http
+				.delete($rootScope.endPoint + "/task/" + cId + "/" + tId)
+				.success(function(res) {
+					defer.resolve(res);
+				})
+				.error(function(err) {
+					defer.reject(err);
+				});
+
+			return defer.promise;
+		};
 	});
-
-
 })();
