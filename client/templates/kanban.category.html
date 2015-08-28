@@ -1,0 +1,12 @@
+<div class="category-container">
+  <h4>{{category.name | uppercase}}</h4>
+  <button id='closeCategory'><span class='glyphicon glyphicon-remove'></span></button>
+  <div ng-repeat="task in category.tasks">
+    <kb-task task="task"></kb-task>
+  </div>
+
+  <div class="form-group">
+    <input type="text" class="input-md form-control" placeholder="Add a task...">
+    <button class="btn btn-default btn-block">Add Task</button>
+  </div>
+</div>

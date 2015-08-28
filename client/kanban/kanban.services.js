@@ -1,13 +1,13 @@
 (function() {
 	"use strict";
 
-	var kanbanModule = angular.module("kanbanModule", ["ngResource"]);
+	var kanbanServices = angular.module("kanban.services", ["ngResource"]);
 
-	kanbanModule.run(function($rootScope) {
+	kanbanServices.run(function($rootScope) {
 		$rootScope.endPoint = "http://localhost:8000/api/";
 	});
 
-	kanbanModule.service("Kanban", function($log, $rootScope, $q, $http) {
+	kanbanServices.service("Kanban", function($log, $rootScope, $q, $http) {
 		var Kanban = this;
 		Kanban.kanban = {};
 

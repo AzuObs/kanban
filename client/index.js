@@ -1,7 +1,7 @@
 (function() {
 	"use strict";
 
-	var app = angular.module("fsToDoApp", ["ui.bootstrap", "ui.router", "toDoModule"]);
+	var app = angular.module("kanbanApp", ["ui.bootstrap", "ui.router", "kanbanModule"]);
 
 	app.config(function($stateProvider, $urlRouterProvider) {
 		$stateProvider.state("whatis", {

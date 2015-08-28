@@ -1,0 +1,14 @@
+<div class="container-fluid">
+  <h4>Board Members</h4>
+  <span ng-repeat="worker in kanban.workers">
+    	<kb-worker worker="worker"></kb-worker>
+    </span>
+</div>
+
+<br>
+
+<div class="kanban-container">
+  <div ng-repeat="category in kanban.categories">
+    <kb-category category="category"></kb-category>
+  </div>
+</div>

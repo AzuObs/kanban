@@ -1,17 +1,14 @@
 (function() {
 	"use strict";
 
-	var toDoModule = angular.module("toDoModule", ["ui.router", "ui.bootstrap", "kanbanModule"]);
+	var kanbanMod = angular.module("kanbanModule", [
+		"ui.bootstrap",
+		"kanban.services",
+		"kanban.config",
+		"kanban.directives"
+	]);
 
-	toDoModule.config(function($stateProvider) {
-		$stateProvider.state("kanban", {
-			url: "/kanban",
-			templateUrl: "kanban/kanban.html",
-			controller: "kanbanController"
-		});
-	});
-
-	toDoModule.controller("kanbanController", function($scope, $log, Kanban) {
+	kanbanMod.controller("kanbanController", function($scope, $log, Kanban) {
 		function init() {
 			$scope.getKanban();
 		}
@@ -21,7 +18,6 @@
 				.getKanban()
 				.then(function(res) {
 					$scope.kanban = res;
-					console.log($scope.kanban);
 				}, function(err) {
 					$log.log(err);
 				});

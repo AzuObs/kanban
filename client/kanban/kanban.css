@@ -1,7 +1,120 @@
-th:first-child {
-  width: 100px;
+.kanban-container {
+  display: flex;
 }
 
-.form-control {
-  height: 22px;
+.form-group button {
+  color: #fff !important;
+  background-color: #222 !important;
+}
+
+
+/*CATEGORY CONTAINER*/
+
+.category-container {
+  width: 240px;
+  margin-left: 10px;
+  padding: 0px 5px 5px 5px;
+  border: 2px solid #aaa;
+  border-radius: 3px;
+  background-color: #eee;
+}
+
+.category-container h4 {
+  margin-bottom: 0px;
+}
+
+.category-container:hover {
+  border: 2px solid #777;
+}
+
+#closeCategory {
+  position: relative;
+  font-size: 0.6em;
+  bottom: 31px;
+  left: 218px;
+  height: 0px;
+  padding: 0px;
+  color: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0);
+  border: none;
+}
+
+.category-container:hover #closeCategory {
+  color: #aaa;
+}
+
+.category-container:hover #closeCategory:hover {
+  color: #333;
+}
+
+.category-container input {
+  margin-top: 10px;
+  margin-bottom: 1px;
+  background-color: #eee;
+}
+
+.category-container input:hover,
+.category-container input:focus {
+  background-color: #fff;
+}
+
+.category-container .form-group button {
+  display: none;
+}
+
+.category-container input:hover~button,
+.category-container input:focus~button {
+  display: block;
+}
+
+
+/*TASK CONTAINER*/
+
+#closeTask {
+  position: relative;
+  font-size: 0.5em;
+  bottom: 11px;
+  left: 208px;
+  height: 0px;
+  padding: 0px;
+  color: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0);
+  border: none;
+}
+
+.task-container:hover #closeTask {
+  color: #aaa;
+}
+
+.category-container h5 {
+  margin-top: 7px;
+  margin-bottom: 7px;
+}
+
+.task-container:hover #closeTask:hover {
+  color: #333;
+}
+
+.task-container {
+  width: 100%;
+  min-height: 70px;
+  margin-bottom: 3px;
+  padding: 0px 5px 5px 5px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  box-shadow: 0px 0px 5px #ccc;
+  background-color: #fff;
+}
+
+.task-container:hover {
+  border: 1px solid #777;
+}
+
+
+/* WORKER-CONTAINER */
+
+.worker-container #workerImg {
+  height: 32px;
+  width: 32px;
+  border: 1px solid #aaa;
 }

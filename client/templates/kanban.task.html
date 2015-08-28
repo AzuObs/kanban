@@ -1,0 +1,8 @@
+<div class="task-container">
+  <h5><button id='closeTask'><span class='glyphicon glyphicon-remove'></span></button>{{task.name}} </h5>
+  <div>
+    <span ng-repeat="worker in task.workers">
+      <kb-worker worker="worker"></kb-worker>
+    </span>
+  </div>
+</div>

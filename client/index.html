@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="fsToDoApp" ng-controller="appCtrl">
+<html lang="en" ng-app="kanbanApp" ng-controller="appCtrl">
 
 <head>
   <title>{{state.current.name}} - To Do App</title>
@@ -14,20 +14,19 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-resource.min.js"></script>
   <script src="index.js" type="text/javascript"></script>
   <script src="kanban/kanban.js" type="text/javascript"></script>
-  <script src="kanban/kanbanservice.js" type="text/javascript"></script>
+  <script src="kanban/kanban.config.js" type="text/javascript"></script>
+  <script src="kanban/kanban.directives.js" type="text/javascript"></script>
+  <script src="kanban/kanban.services.js" type="text/javascript"></script>
 </head>
 
 <body>
   <div class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
-      <div class="navbar navbar-brand">
-        <a ui-sref="kanban"><img src="favicon.png"></img>Kanban</a>
-      </div>
+    <div class="container-fluid">
       <ul class="nav navbar-nav">
-        <li><a ui-sref="whatis">What Is Kanban?</a></li>
-        <li><a ui-sref="about">About</a></li>
+        <li>
+          <a ui-sref="kanban">KANBAN <span>看板</span></a>
+        </li>
       </ul>
-      <span class="navbar-text navbar-right"><a href="https://github.com/AzuObs" target="_blank">Dnl Lvr</a></span>
     </div>
   </div>
   <div ui-view></div>
