@@ -7,6 +7,7 @@
 
 	var taskSchema = new Schema({
 		name: String,
+		position: Number,
 		workers: [workerSchema]
 	});
 

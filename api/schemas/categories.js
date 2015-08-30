@@ -7,6 +7,7 @@
 
 	var categorySchema = new Schema({
 		name: String,
+		position: Number,
 		tasks: [taskSchema]
 	});
 

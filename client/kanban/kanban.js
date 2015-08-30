@@ -9,7 +9,7 @@
 		"ui.sortable"
 	]);
 
-	kanbanMod.controller("kanbanController", function($scope, $log, kanbanService) {
+	kanbanMod.controller("kanbanController", function($scope, $log, $modal, kanbanService) {
 		$scope.kanban = {};
 		var kanbanWorkers = [];
 
@@ -110,6 +110,16 @@
 					$scope.kanban.workers = kanbanWorkers.slice();
 				}
 			}
+		};
+
+		$scope.taskModal = function() {
+			console.log("taskModal ping");
+
+			var modalInstance = $modal.open({
+				animation: true,
+				templateUrl: 'kanban/templates/kanban.modal.html',
+				controller: 'kanbanController'
+			});
 		};
 
 		init();

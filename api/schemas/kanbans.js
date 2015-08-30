@@ -8,6 +8,7 @@
 
 
 	var kanbanSchema = new Schema({
+		name: String,
 		categories: [categorySchema],
 		workers: [workerSchema]
 	});
