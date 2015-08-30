@@ -101,9 +101,12 @@
 				if ($(e.target).hasClass('worker-selection') &&
 					ui.item.sortable.droptarget &&
 					e.target != ui.item.sortable.droptarget[0]) {
-					console.log(ui.item.sortable.model); //worker model
+					var ids = ui.item.sortable.droptarget[0].id;
+					var cId = ids.substring(2, ids.search(" "));
+					var tId = ids.substring(ids.search("t:") + 2, ids.length);
+					var wId = ui.item.sortable.model._id;
 
-					console.log(ui.item.sortable.droptargetModel.isPrototypeOf());
+					$scope.assignWorker(cId, tId, wId);
 					$scope.kanban.workers = kanbanWorkers.slice();
 				}
 			}

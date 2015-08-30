@@ -33,14 +33,30 @@
   background-color: #fff;
 }
 
+.comment {
+  float: left;
+  font-size: 0.85em;
+  margin: 21px 0px 0px 2px;
+}
+
+.comment span {
+  position: relative;
+  bottom: 1px;
+  left: 2px;
+}
+
 .worker-list {
   display: block;
-  width: 180px;
+  width: 210px;
   height: 40px;
 }
 
-.worker {
+.kanban-menu .worker {
   float: left;
+}
+
+.worker {
+  float: right;
   margin-right: 3px;
 }
 
