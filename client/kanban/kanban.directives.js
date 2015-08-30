@@ -7,7 +7,7 @@
 		return {
 			restrict: "E",
 			replace: true,
-			templateUrl: "templates/kanban.category.html"
+			templateUrl: "kanban/templates/kanban.category.html"
 		};
 	});
 
@@ -15,21 +15,15 @@
 		return {
 			restrict: "E",
 			replace: true,
-			templateUrl: "templates/kanban.task.html"
+			templateUrl: "kanban/templates/kanban.task.html"
 		};
 	});
 
 	kanbanDir.directive("kbWorker", function() {
 		return {
 			restrict: "E",
-			scope: {
-				worker: "="
-			},
 			replace: true,
-			templateUrl: "templates/kanban.worker.html",
-			controller: function($scope) {
-				$scope.imgUrl = "http://imgur.com/" + $scope.worker.pictureUrl;
-			}
+			templateUrl: "kanban/templates/kanban.worker.html"
 		};
 	});
 

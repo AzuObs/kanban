@@ -1,5 +1,47 @@
-.kanban-container {
+.kanban-menu {
+  height: 150px;
+}
+
+.kanban-categories {
   display: flex;
+  align-items: flex-start;
+}
+
+.category-container {
+  width: 240px;
+  margin-right: 10px;
+  padding: 0px 5px 5px 5px;
+  border: 2px solid #aaa;
+  border-radius: 3px;
+  background-color: #eee;
+  display: block;
+  float: left;
+}
+
+.task-list {
+  min-height: 50px;
+}
+
+.task-container {
+  width: 100%;
+  min-height: 70px;
+  margin-bottom: 3px;
+  padding: 0px 5px 0px 5px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  box-shadow: 0px 0px 5px #ccc;
+  background-color: #fff;
+}
+
+.worker-list {
+  display: block;
+  width: 180px;
+  height: 40px;
+}
+
+.worker {
+  float: left;
+  margin-right: 3px;
 }
 
 .form-group button {
@@ -9,15 +51,6 @@
 
 
 /*CATEGORY CONTAINER*/
-
-.category-container {
-  width: 240px;
-  margin-left: 10px;
-  padding: 0px 5px 5px 5px;
-  border: 2px solid #aaa;
-  border-radius: 3px;
-  background-color: #eee;
-}
 
 .category-container h4 {
   margin-bottom: 0px;
@@ -47,23 +80,32 @@
   color: #333;
 }
 
-.category-container input {
+.category-input {
+  width: 240px;
+  margin-right: 10px;
+  padding: 0px 5px 5px 5px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  background-color: #eee;
+}
+
+.kanban-categories input {
   margin-top: 10px;
   margin-bottom: 1px;
   background-color: #eee;
 }
 
-.category-container input:hover,
-.category-container input:focus {
+.kanban-categories input:hover,
+.kanban-categories input:focus {
   background-color: #fff;
 }
 
-.category-container .form-group button {
+.kanban-categories .form-group button {
   display: none;
 }
 
-.category-container input:hover~button,
-.category-container input:focus~button {
+.kanban-categories .form-group:hover button,
+.kanban-categories input:focus~button {
   display: block;
 }
 
@@ -95,17 +137,6 @@
   color: #333;
 }
 
-.task-container {
-  width: 100%;
-  min-height: 70px;
-  margin-bottom: 3px;
-  padding: 0px 5px 5px 5px;
-  border: 1px solid #aaa;
-  border-radius: 3px;
-  box-shadow: 0px 0px 5px #ccc;
-  background-color: #fff;
-}
-
 .task-container:hover {
   border: 1px solid #777;
 }
@@ -117,4 +148,18 @@
   height: 32px;
   width: 32px;
   border: 1px solid #aaa;
+}
+
+.kanban-menu .form-group {
+  margin-top: 10px;
+  width: 190px;
+}
+
+.kanban-menu button {
+  display: none;
+}
+
+.kanban-menu .form-group:hover button,
+.kanban-menu input:focus~button {
+  display: block;
 }

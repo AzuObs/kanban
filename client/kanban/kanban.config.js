@@ -6,7 +6,7 @@
 	kanbanConfig.config(function($stateProvider) {
 		$stateProvider.state("kanban", {
 			url: "/kanban",
-			templateUrl: "templates/kanban.html",
+			templateUrl: "kanban/templates/kanban.html",
 			controller: "kanbanController"
 		});
 	});

@@ -85,5 +85,21 @@
 
 			return defer.promise;
 		};
+
+		Kanban.assignWorker = function(cId, tId, wId) {
+			var defer = $q.defer();
+
+			$http
+				.post($rootScope.endPoint + "/worker/" + wId + "/" + cId + "/" + tId)
+				.success(function(res) {
+					defer.resolve(res);
+				})
+				.error(function(err) {
+					defer.reject(err);
+				});
+
+			return defer.promise;
+		};
+
 	});
 })();
