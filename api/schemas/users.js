@@ -3,10 +3,11 @@
 
 	var mongoose = require("mongoose");
 	var Schema = mongoose.Schema;
-	var boardScham = require(process.cwd() + "/schemas/boards.js");
+	var boardSchema = require(process.cwd() + "/schemas/boards.js");
+
 	var userSchema = new Schema({
-		account: String,
-		password: String,
+		username: String,
+		pwd: String,
 		boards: [boardSchema]
 	});
 
