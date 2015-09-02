@@ -7,11 +7,11 @@
 	var workerSchema = require(process.cwd() + "/schemas/workers.js");
 
 
-	var kanbanSchema = new Schema({
+	var boardSchema = new Schema({
 		name: String,
 		categories: [categorySchema],
 		workers: [workerSchema]
 	});
 
-	module.exports = kanbanSchema;
+	module.exports = boardSchema;
 })();

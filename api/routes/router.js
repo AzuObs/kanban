@@ -2,7 +2,7 @@
 	"use strict";
 
 	var express = require("express"),
-		kanban = require(process.cwd() + "/routes/kanban.js");
+		routes = require(process.cwd() + "/routes/routes.js");
 
 
 	exports.createRoutes = function(app) {
@@ -15,25 +15,25 @@
 			next();
 		});
 
-		router.get("/", kanban.findKanban);
-		router.post("/", kanban.createKanban);
-		router.delete("/", kanban.deleteKanban);
+		router.get("/", routes.findBoard);
+		router.post("/", routes.createBoard);
+		router.delete("/", routes.deleteBoard);
 
-		router.get("/worker/:id", kanban.findWorker);
-		router.post("/worker/:name/:url", kanban.createWorker);
-		router.delete("/worker/:id", kanban.deleteWorker);
-		router.post("/worker/:wId/:cId/:tId", kanban.assignWorker);
-		router.delete("/worker/:wId/:cId/:tId", kanban.unassignWorker);
-		router.put("/worker/:wId/:oCId/:oTId/:nCId/:nTId", kanban.reassignWorker);
+		router.get("/worker/:id", routes.findWorker);
+		router.post("/worker/:name/:url", routes.createWorker);
+		router.delete("/worker/:id", routes.deleteWorker);
+		router.post("/worker/:wId/:cId/:tId", routes.assignWorker);
+		router.delete("/worker/:wId/:cId/:tId", routes.unassignWorker);
+		router.put("/worker/:wId/:oCId/:oTId/:nCId/:nTId", routes.reassignWorker);
 
-		router.post("/category/:name", kanban.createCategory);
-		router.get("/category/:id", kanban.findCategory);
-		router.delete("/category/:id", kanban.deleteCategory);
+		router.post("/category/:name", routes.createCategory);
+		router.get("/category/:id", routes.findCategory);
+		router.delete("/category/:id", routes.deleteCategory);
 
-		router.post("/task/:cId/:name", kanban.createTask);
-		router.get("/task/:cId/:tId", kanban.findTask);
-		router.delete("/task/:cId/:tId", kanban.deleteTask);
-		router.put("/task/:tId/:oCId/:nCId", kanban.reassignTask);
+		router.post("/task/:cId/:name", routes.createTask);
+		router.get("/task/:cId/:tId", routes.findTask);
+		router.delete("/task/:cId/:tId", routes.deleteTask);
+		router.put("/task/:tId/:oCId/:nCId", routes.reassignTask);
 
 		app.use("/api", router);
 	};
