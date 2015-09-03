@@ -24,21 +24,13 @@
 		router.post("/category", routes.createCategory); //params: userId, boardId, position, name
 		router.post("/task", routes.createTask); //params: userId, boardId, categoryId, position, name
 
-		router.get("/user/:id", routes.findUser);
+		router.get("/user/:userId", routes.findUser);
 
-		// router.post("/worker/:name/:url", routes.createWorker);
-		// router.delete("/worker/:id", routes.deleteWorker);
-		// router.post("/worker/:wId/:cId/:tId", routes.assignWorker);
-		// router.delete("/worker/:wId/:cId/:tId", routes.unassignWorker);
-		// router.put("/worker/:wId/:oCId/:oTId/:nCId/:nTId", routes.reassignWorker);
+		router.put("/task/workers", routes.assignWorker); //params: userId, boardId, categoryId, taskId, workersIds[]
+		router.put("/categories", routes.reassignCategories); //params: userId, boardId, categories: []
 
-		// router.get("/category/:id", routes.findCategory);
-		// router.delete("/category/:id", routes.deleteCategory);
-
-		// router.post("/task/:cId/:name", routes.createTask);
-		// router.get("/task/:cId/:tId", routes.findTask);
-		// router.delete("/task/:cId/:tId", routes.deleteTask);
-		// router.put("/task/:tId/:oCId/:nCId", routes.reassignTask);
+		router.delete("/category/:userId/:boardId/:categoryId", routes.deleteCategory); //params: userId, boardId, categoryId
+		router.delete("/task/:userId/:boardId/:categoryId/:taskId", routes.deleteTask); //params: userId, boardId, categoryId, taskId
 
 		app.use("/api", router);
 	};

@@ -8,9 +8,76 @@
 	var Task = mongoose.model("Task", require(process.cwd() + "/schemas/tasks.js"));
 
 
+	exports.deleteTask = function(req, res, next) {
+		User
+			.findById(req.params.userId)
+			.exec(function(err, user) {
+				if (err) return res.send(user);
+				var board = user.boards.id(req.params.boardId);
+				var category = board.categories.id(req.params.categoryId);
+				category.tasks.id(req.params.taskId).remove();
+				user.save(function(err) {
+					if (err) return send(err);
+					res.sendStatus(204);
+				});
+			});
+	};
+
+
+	exports.deleteCategory = function(req, res, next) {
+		User
+			.findById(req.params.userId)
+			.exec(function(err, user) {
+				if (err) return res.send(user);
+				var board = user.boards.id(req.params.boardId);
+				board.categories.id(req.params.categoryId).remove();
+				user.save(function(err) {
+					if (err) return send(err);
+					res.sendStatus(204);
+				});
+			});
+	};
+
+
+	exports.reassignCategories = function(req, res, next) {
+		User
+			.findById(req.body.userId)
+			.exec(function(err, user) {
+				if (err) return res.send(err);
+				var board = user.boards.id(req.body.boardId);
+				board.categories = req.body.categories;
+				user.save(function(err) {
+					if (err) return res.send(err);
+					res.status(200).json(board.categories);
+				});
+			});
+	};
+
+
+	exports.assignWorker = function(req, res, next) {
+		User
+			.findById(req.body.userId)
+			.exec(function(err, user) {
+				if (err) return res.send(err);
+				var board = user.boards.id(req.body.boardId);
+				var cat = board.categories.id(req.body.categoryId);
+				var task = cat.tasks.id(req.body.taskId);
+				var noWorkers = (task.workers.length === 0);
+				task.workers = req.body.workersIds;
+				user.save(function(err) {
+					if (err) return res.send(err);
+					if (noWorkers) {
+						res.status(201).json(task);
+					}
+					res.status(200).json(task); //ok //created
+				});
+			});
+	};
+
+
 	exports.findUser = function(req, res, next) {
 		User
-			.findById(req.params.id)
+			.findById(req.params.userId)
 			.exec(function(err, user) {
 				if (err) return res.send(err);
 				res.status(200).json(user);
@@ -86,189 +153,6 @@
 			res.status(201).json(user);
 		});
 	};
-
-
-	// exports.reassignWorker = function(req, res, next) {
-	// 	Board
-	// 		.findOne()
-	// 		.exec(function(err, board) {
-	// 			if (err) return res.send(err);
-	// 			var oldCat = board.categories.id(req.params.oCId);
-	// 			var oldTask = oldCat.tasks.id(req.params.oTId);
-	// 			oldTask.workers.id(req.params.wId).remove();
-
-	// 			var worker = board.workers.id(req.params.wId);
-	// 			var newCat = board.categories.id(req.params.nCId);
-	// 			var newTask = newCat.tasks.id(req.params.nTId);
-	// 			newTask.workers.push(worker);
-
-	// 			board.save(function(err) {
-	// 				if (err) return res.send(err);
-	// 				res.sendStatus(204);
-	// 			});
-	// 		});
-	// };
-
-	// exports.unassignWorker = function(req, res, next) {
-	// 	Board
-	// 		.findOne()
-	// 		.exec(function(err, board) {
-	// 			if (err) return res.send(err);
-	// 			var category = board.categories.id(req.params.cId);
-	// 			var task = category.tasks.id(req.params.tId);
-	// 			task.workers.id(req.params.wId).remove();
-	// 			board.save(function(err) {
-	// 				if (err) return res.send(err);
-	// 				res.sendStatus(204);
-	// 			});
-	// 		});
-	// };
-
-	// exports.assignWorker = function(req, res, next) {
-	// 	Board
-	// 		.findOne()
-	// 		.exec(function(err, board) {
-	// 			if (err) return res.send(err);
-	// 			var category = board.categories.id(req.params.cId);
-	// 			var task = category.tasks.id(req.params.tId);
-	// 			task.workers.push(board.workers.id(req.params.wId));
-	// 			board.save(function(err) {
-	// 				if (err) return res.send(err);
-	// 				res.sendStatus(204);
-	// 			});
-	// 		});
-	// };
-
-	// exports.reassignTask = function(req, res, next) {
-	// 	Board
-	// 		.findOne()
-	// 		.exec(function(err, board) {
-	// 			if (err) return res.send(err);
-	// 			var oldCat = board.categories.id(req.params.oCId);
-	// 			var newCat = board.categories.id(req.params.nCId);
-	// 			var task = oldCat.tasks.id(req.params.tId);
-	// 			oldCat.tasks.id(req.params.tId).remove();
-	// 			newCat.tasks.push(task);
-	// 			board.save(function(err) {
-	// 				if (err) return res.send(err);
-	// 				res.sendStatus(204);
-	// 			});
-	// 		});
-	// };
-
-	// exports.deleteTask = function(req, res, next) {
-	// 	Board
-	// 		.findOne()
-	// 		.exec(function(err, board) {
-	// 			if (err) return res.send(err);
-	// 			var category = board.categories.id(req.params.cId);
-	// 			category.tasks.id(req.params.tId).remove();
-	// 			board.save(function(err) {
-	// 				if (err) return res.send(err);
-	// 				res.sendStatus(204);
-	// 			});
-	// 		});
-	// };
-
-	// exports.findTask = function(req, res, next) {
-	// 	Board
-	// 		.findOne()
-	// 		.exec(function(err, board) {
-	// 			if (err) return res.send(err);
-	// 			var category = board.categories.id(req.params.cId);
-	// 			res.send(category.tasks.id(req.params.tId));
-	// 		});
-	// };
-
-
-	// exports.createTask = function(req, res, next) {
-	// 	Board
-	// 		.findOne()
-	// 		.exec(function(err, board) {
-	// 			if (err) return res.send(err);
-	// 			var category = board.categories.id(req.params.cId);
-	// 			category.tasks.push(new Task({
-	// 				name: req.params.name,
-	// 				workers: []
-	// 			}));
-	// 			board.save(function(err) {
-	// 				if (err) return res.send(err);
-	// 				res.sendStatus(204);
-	// 			});
-	// 		});
-	// };
-
-	// exports.deleteCategory = function(req, res, next) {
-	// 	Board
-	// 		.findOne()
-	// 		.exec(function(err, board) {
-	// 			if (err) return res.send(err);
-	// 			board.categories.id(req.params.id).remove();
-	// 			board.save(function(err) {
-	// 				if (err) return res.send(err);
-	// 				res.sendStatus(204);
-	// 			});
-	// 		});
-	// };
-
-	// exports.findCategory = function(req, res, next) {
-	// 	Board
-	// 		.findOne()
-	// 		.exec(function(err, board) {
-	// 			if (err) return res.send(err);
-	// 			res.send(board.categories.id(req.params.id));
-	// 		});
-	// };
-
-
-	// exports.deleteWorker = function(req, res, next) {
-	// 	Board
-	// 		.findOne()
-	// 		.exec(function(err, board) {
-	// 			if (err) return res.send(err);
-	// 			board.workers.id(req.params.id).remove();
-	// 			board.save(function(err) {
-	// 				if (err) return res.send(err);
-	// 				res.sendStatus(204);
-	// 			});
-	// 		});
-	// };
-
-	// exports.findWorker = function(req, res, next) {
-	// 	Board
-	// 		.findOne()
-	// 		.exec(function(err, board) {
-	// 			if (err) return res.send(err);
-	// 			res.json(board.workers.id(req.params.id));
-	// 		});
-	// };
-
-	// exports.createWorker = function(req, res, next) {
-	// 	Board
-	// 		.findOne()
-	// 		.exec(function(err, board) {
-	// 			if (err) return res.send(err);
-	// 			board.workers.push(new Worker({
-	// 				name: req.params.name,
-	// 				pictureUrl: req.params.url
-	// 			}));
-	// 			board.save(function(err) {
-	// 				if (err) return res.send(err);
-	// 				res.sendStatus(204);
-	// 			});
-	// 		});
-	// };
-
-
-	// exports.deleteBoard = function(req, res, next) {
-	// 	Board
-	// 		.find()
-	// 		.remove()
-	// 		.exec(function(err) {
-	// 			if (err) return res.send(err);
-	// 			res.sendStatus(204);
-	// 		});
-	// };
 
 
 	module.exports = exports;
