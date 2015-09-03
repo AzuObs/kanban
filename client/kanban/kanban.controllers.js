@@ -2,22 +2,6 @@
 
 	var Controllers = angular.module("kanban.controllers", ["kanban.services"]);
 
-	Controllers.controller("logginCtrl", function($scope, userService) {
-		$scope.username = "daniel";
-		$scope.pwd = "1";
-
-		$scope.authenticate = function() {
-			userService
-				.authenticate({
-					username: $scope.username,
-					pwd: $scope.pwd
-				})
-				.then(function(res) {
-					console.log(res);
-				});
-		};
-	});
-
 
 	Controllers.controller("kanbanCtrl", function($scope, $log, $modal, userService) {
 		$scope.user = {};

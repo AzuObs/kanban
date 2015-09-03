@@ -1,7 +1,9 @@
 (function() {
 	"use strict";
 
-	var jwt = require("jsonwebtoken");
+	var TOKEN_SECRET = "danielsiteisbestsite";
+
+	var JWT = require("jsonwebtoken");
 	var mongoose = require("mongoose");
 	var Task = mongoose.model("Task", require(process.cwd() + "/schemas/tasks.js"));
 	var User = mongoose.model("User", require(process.cwd() + "/schemas/users.js"));
@@ -10,9 +12,32 @@
 
 
 	exports.authenticate = function(req, res, next) {
+		User.findOne({
+			username: req.body.username,
+			pwd: req.body.pwd
+		}, function(err, user) {
+			if (err) return res.send(err);
+			if (!user) return res.sendStatus(404);
 
+			var token = JWT.sign({
+				username: user.username,
+				pwd: user.pwd
+			}, TOKEN_SECRET, {
+				expiresInMinutes: 1
+			});
+
+			return res.status(201).json({
+				token: token
+			});
+		});
 	};
 
+	exports.authorize = function(req, res, next) {
+		JWT.verify(req.headers.token, TOKEN_SECRET, function(err, decoded) {
+			if (err) return res.sendStatus(401);
+			next();
+		});
+	};
 
 	exports.deleteTask = function(req, res, next) {
 		User

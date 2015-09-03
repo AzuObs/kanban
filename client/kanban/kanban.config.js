@@ -3,18 +3,21 @@
 
 	var kanbanConfig = angular.module("kanban.config", ["ui.router"]);
 
+	// EVIL
+	// kanbanConfig.config(function($locationProvider) {
+	// 	$locationProvider.html5Mode({
+	// 		enabled: true,
+	// 		requireBase: false
+	// 	});
+	// });
+
+
 	kanbanConfig.config(function($stateProvider) {
 		$stateProvider.state("kanban", {
 			abstract: true,
 			url: "/kanban",
 			templateUrl: "kanban/templates/kanban.html",
 			controller: "kanbanCtrl"
-		});
-
-		$stateProvider.state("kanban.loggin", {
-			url: "/loggin",
-			templateUrl: "kanban/templates/kanban.loggin.html",
-			controller: "logginCtrl"
 		});
 
 		$stateProvider.state("kanban.boardlist", {

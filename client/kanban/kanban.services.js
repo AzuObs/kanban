@@ -3,28 +3,10 @@
 
 	var kanbanServices = angular.module("kanban.services", ["ngResource"]);
 
-	kanbanServices.run(function($rootScope) {
-		$rootScope.endPoint = "http://localhost:8000/api";
-	});
 
 	kanbanServices.service("userService", function($log, $rootScope, $q, $http) {
 		var User = this;
 		User.user = {};
-
-		User.authenticate = function(params) {
-			var defer = $q.defer();
-
-			$http
-				.post($rootScope.endPoint + "/user/loggin", params)
-				.success(function(res) {
-					defer.resolve(res);
-				})
-				.error(function(err) {
-					defer.reject(err);
-				});
-
-			return defer.promise;
-		};
 
 
 		User.getUser = function() {
