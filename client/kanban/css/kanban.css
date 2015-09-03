@@ -1,8 +1,8 @@
-.kanban-menu {
+.board-menu {
   height: 150px;
 }
 
-.kanban-categories {
+.board-categories {
   display: flex;
   align-items: flex-start;
 }
@@ -51,7 +51,7 @@
   height: 40px;
 }
 
-.kanban-menu .worker {
+.board-menu .worker {
   float: left;
 }
 
@@ -60,9 +60,14 @@
   margin-right: 3px;
 }
 
-.form-group button {
+.btn-black {
+  border: 1px solid #000;
   color: #fff !important;
   background-color: #222 !important;
+}
+
+.btn-black:hover {
+  box-shadow: 0px 0px 7px #888;
 }
 
 
@@ -105,23 +110,23 @@
   background-color: #eee;
 }
 
-.kanban-categories input {
+.board-categories input {
   margin-top: 10px;
   margin-bottom: 1px;
   background-color: #eee;
 }
 
-.kanban-categories input:hover,
-.kanban-categories input:focus {
+.board-categories input:hover,
+.board-categories input:focus {
   background-color: #fff;
 }
 
-.kanban-categories .form-group button {
+.board-categories .form-group button {
   display: none;
 }
 
-.kanban-categories .form-group:hover button,
-.kanban-categories input:focus~button {
+.board-categories .form-group:hover button,
+.board-categories input:focus~button {
   display: block;
 }
 
@@ -166,16 +171,16 @@
   border: 1px solid #aaa;
 }
 
-.kanban-menu .form-group {
+.board-menu .form-group {
   margin-top: 10px;
   width: 190px;
 }
 
-.kanban-menu button {
+.board-menu button {
   display: none;
 }
 
-.kanban-menu .form-group:hover button,
-.kanban-menu input:focus~button {
+.board-menu .form-group:hover button,
+.board-menu input:focus~button {
   display: block;
 }

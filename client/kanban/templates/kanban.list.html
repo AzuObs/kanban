@@ -1,8 +1,8 @@
 <div class="container-fluid board-index">
-  <h3>Kanban Boards</h3>
+  <h3>{{user.username | uppercase}}'s Boards</h3>
   <ul class="board-list">
-    <li>
-      <a ui-sref="kanban.board({boardId: 0})">kanban.name</a>
+    <li ng-repeat="board in user.boards">
+      <a ui-sref="kanban.board({boardId: board._id})">{{board.name}}</a>
     </li>
   </ul>
 

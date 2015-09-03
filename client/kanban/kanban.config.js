@@ -8,11 +8,13 @@
 			abstract: true,
 			url: "/kanban",
 			templateUrl: "kanban/templates/kanban.html",
+			controller: "kanbanCtrl"
 		});
 
 		$stateProvider.state("kanban.loggin", {
 			url: "/loggin",
-			templateUrl: "kanban/templates/kanban.loggin.html"
+			templateUrl: "kanban/templates/kanban.loggin.html",
+			controller: "logginCtrl"
 		});
 
 		$stateProvider.state("kanban.boardlist", {
@@ -22,8 +24,7 @@
 
 		$stateProvider.state("kanban.board", {
 			url: "/:boardId",
-			templateUrl: "/kanban/templates/kanban.board.html",
-			controller: "kanbanController"
+			templateUrl: "/kanban/templates/kanban.board.html"
 		});
 	});
 

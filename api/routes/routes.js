@@ -1,11 +1,17 @@
 (function() {
 	"use strict";
 
+	var jwt = require("jsonwebtoken");
 	var mongoose = require("mongoose");
+	var Task = mongoose.model("Task", require(process.cwd() + "/schemas/tasks.js"));
 	var User = mongoose.model("User", require(process.cwd() + "/schemas/users.js"));
 	var Board = mongoose.model("Board", require(process.cwd() + "/schemas/boards.js"));
 	var Category = mongoose.model("Category", require(process.cwd() + "/schemas/categories.js"));
-	var Task = mongoose.model("Task", require(process.cwd() + "/schemas/tasks.js"));
+
+
+	exports.authenticate = function(req, res, next) {
+
+	};
 
 
 	exports.deleteTask = function(req, res, next) {
