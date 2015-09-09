@@ -6,4 +6,14 @@
 		"kanbanBoardModule",
 		"kanbanBoardListModule"
 	]);
+
+
+	kanbanMod.config(function($stateProvider) {
+		$stateProvider.state("kanban", {
+			abstract: true,
+			url: "/kanban",
+			templateUrl: "kanban/templates/kanban.html"
+		});
+	});
+
 })();

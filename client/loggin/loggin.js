@@ -3,6 +3,25 @@
 
 	var logginMod = angular.module("logginModule", ["ngResource"]);
 
+	logginMod.config(function($httpProvider, $stateProvider) {
+		$httpProvider.interceptors.push(function() {
+			return {
+				request: function(req) {
+					if (sessionStorage.token) {
+						req.headers.token = sessionStorage.token;
+					}
+					return req;
+				}
+			};
+		});
+
+		$stateProvider.state("loggin", {
+			url: "/loggin",
+			templateUrl: "loggin/loggin.html",
+			controller: "logginCtrl"
+		});
+	});
+
 
 	logginMod.service("logginService", function($http, $rootScope, $q) {
 		var service = this;
