@@ -22,16 +22,17 @@
 		$rootScope.state = $state;
 		$rootScope.showSpinner = false;
 
-		$rootScope.$on("$stateChangeStart", function(event) {
-
+		$rootScope.$on("$stateChangeStart", function(event, toState) {
+			if (toState.name === "kanban.boardList") $rootScope.showSpinner = true;
 		});
 
-		$rootScope.$on("stateChangeSuccess", function(event) {
-
+		$rootScope.$on("$stateChangeSuccess", function(event) {
+			$rootScope.showSpinner = false;
 		});
 
 		$rootScope.$on("$stateChangeError", function(event, toState, toParams) {
 			event.preventDefault(); //stops ui-router from reverting to previous successful url
+			$rootScope.showSpinner = false;
 		});
 	});
 

@@ -56,7 +56,7 @@
 				})
 				.then(function(res) {
 					sessionStorage.token = res.token;
-					$state.go("kanban.boardlist", {
+					$state.go("kanban.boardList", {
 						username: $scope.username
 					});
 				}, function(err) {

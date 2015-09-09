@@ -38,9 +38,35 @@
           <a ui-sref="loggin">KANBAN <span>看板</span></a>
         </li>
       </ul>
+      <div class="nav navbar-nav navbar-right">
+        <li dropdown on-toggle="toggled(open)">
+          <a href dropdown-toggle>Menu <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a ui-sref="loggin">Loggin</a></li>
+            <li><a ui-sref="about">About</a></li>
+            <li><a ui-sref="whatis">WhatIs</a></li>
+            <li><a ui-sref="kanban">Kanban</a></li>
+          </ul>
+        </li>
+      </div>
     </div>
   </div>
-  <div ng-show="showSpinner"></div>
+
+  <div ng-show="showSpinner" class="sk-fading-circle">
+    <div class="sk-circle1 sk-circle"></div>
+    <div class="sk-circle2 sk-circle"></div>
+    <div class="sk-circle3 sk-circle"></div>
+    <div class="sk-circle4 sk-circle"></div>
+    <div class="sk-circle5 sk-circle"></div>
+    <div class="sk-circle6 sk-circle"></div>
+    <div class="sk-circle7 sk-circle"></div>
+    <div class="sk-circle8 sk-circle"></div>
+    <div class="sk-circle9 sk-circle"></div>
+    <div class="sk-circle10 sk-circle"></div>
+    <div class="sk-circle11 sk-circle"></div>
+    <div class="sk-circle12 sk-circle"></div>
+  </div>
+
   <div ng-show="!showSpinner" ui-view></div>
 </body>
 

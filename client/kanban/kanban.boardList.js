@@ -4,13 +4,23 @@
 	var kanbanMod = angular.module("kanbanBoardListModule", ["userServiceModule"]);
 
 	kanbanMod.config(function($stateProvider) {
-		$stateProvider.state("kanban.boardlist", {
+		$stateProvider.state("kanban.boardList", {
 			url: "/user/:username",
 			templateUrl: "kanban/templates/kanban.list.html",
 			controller: "kanbanBoardListCtrl",
 			resolve: {
-				user: function(userService) {
-					return userService.getUser();
+				user: function($q, userService) {
+					var q = $q.defer();
+					userService
+						.getUser()
+						.then(function(res) {
+							setTimeout(function() {
+								q.resolve(res);
+							}, 1500);
+						}, function(err) {
+							q.reject(err);
+						});
+					return q.promise;
 				}
 			}
 		});

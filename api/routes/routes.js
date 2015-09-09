@@ -10,12 +10,6 @@
 	var Board = mongoose.model("Board", require(process.cwd() + "/schemas/boards.js"));
 	var Category = mongoose.model("Category", require(process.cwd() + "/schemas/categories.js"));
 
-	exports.wait = function(req, res, next) {
-		setTimeout(function() {
-			next();
-		}, 300);
-	};
-
 	exports.authenticate = function(req, res, next) {
 		User.findOne({
 			username: req.body.username,
