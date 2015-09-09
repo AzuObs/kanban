@@ -1,7 +1,7 @@
 (function() {
 	"use strict";
 
-	var logginMod = angular.module("logginModule", ["ui.router", "ui.bootstrap", "ngResource"]);
+	var logginMod = angular.module("logginModule", ["ngResource"]);
 
 
 	logginMod.service("logginService", function($http, $rootScope, $q) {
@@ -25,7 +25,7 @@
 	});
 
 
-	logginMod.controller("logginCtrl", function($scope, logginService) {
+	logginMod.controller("logginCtrl", function($scope, logginService, $state) {
 		$scope.username = "daniel";
 		$scope.pwd = "123";
 
@@ -37,6 +37,9 @@
 				})
 				.then(function(res) {
 					sessionStorage.token = res.token;
+					$state.go("kanban.boardlist", {
+						username: $scope.username
+					});
 				}, function(err) {
 					console.log(err);
 				});

@@ -3,8 +3,8 @@
   <button id='closeCategory' ng-click="$parent.deleteCategory(category._id)"><span class='glyphicon glyphicon-remove'></span></button>
 
   <div id="c:{{category._id}}" ui-sortable="taskSortOptions" ng-model="category.tasks" class="task-list">
-    <kb-task class="task" ng-repeat="task in category.tasks">
-    </kb-task>
+    <ui-task class="task" ng-repeat="task in category.tasks">
+    </ui-task>
   </div>
 
   <div class="form-group">

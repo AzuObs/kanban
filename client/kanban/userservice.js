@@ -1,10 +1,10 @@
 (function() {
 	"use strict";
 
-	var kanbanServices = angular.module("kanban.services", ["ngResource"]);
+	var userService = angular.module("userServiceModule", ["ngResource"]);
 
 
-	kanbanServices.service("userService", function($log, $rootScope, $q, $http) {
+	userService.service("userService", function($log, $rootScope, $q, $http) {
 		var User = this;
 		User.user = {};
 

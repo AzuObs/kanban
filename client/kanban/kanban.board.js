@@ -1,28 +1,57 @@
 (function() {
+	"use strict";
 
-	var Controllers = angular.module("kanban.controllers", ["kanban.services"]);
+	var kanbanMod = angular.module("kanbanBoardModule", ["ui.sortable", "userServiceModule"]);
 
 
-	Controllers.controller("kanbanCtrl", function($scope, $log, $modal, userService) {
-		$scope.user = {};
-		$scope.board = {};
-		var boardWorkers = [];
+	kanbanMod.config(function($stateProvider) {
+		$stateProvider.state("kanban.board", {
+			url: "/board/:boardId",
+			templateUrl: "/kanban/templates/kanban.board.html",
+			controller: "kanbanBoardCtrl",
+			resolve: {
+				userObj: function(userService) {
+					return userService.getUser();
+				},
+				boardId: function($stateParams) {
+					return $stateParams.boardId;
+				}
+			}
+		});
+	});
 
-		function init() {
-			$scope.getUser();
-		}
 
-		$scope.getUser = function() {
-			userService
-				.getUser()
-				.then(function(res) {
-					$scope.user = userService.user;
-					$scope.board = userService.user.boards[0];
-					boardWorkers = $scope.user.boards[0].workers.slice();
-				}, function(err) {
-					$log.log(err);
-				});
+	kanbanMod.directive("uiCategory", function() {
+		return {
+			restrict: "E",
+			replace: true,
+			templateUrl: "kanban/templates/kanban.category.html"
 		};
+	});
+
+
+	kanbanMod.directive("uiTask", function() {
+		return {
+			restrict: "E",
+			replace: true,
+			templateUrl: "kanban/templates/kanban.task.html"
+		};
+	});
+
+
+	kanbanMod.directive("uiWorker", function() {
+		return {
+			restrict: "E",
+			replace: true,
+			templateUrl: "kanban/templates/kanban.worker.html"
+		};
+	});
+
+
+	kanbanMod.controller("kanbanBoardCtrl", function($scope, $log, $modal, userObj, boardId, userService) {
+		$scope.user = userObj;
+		$scope.board = $scope.user.boards[findBoardIndex(boardId)];
+		var boardWorkers = $scope.board.workers.slice();
 
 		$scope.createCategory = function(name, keyEvent) {
 			if (!keyEvent || keyEvent.which === 13) {
@@ -164,8 +193,14 @@
 			});
 		};
 
-		init();
+		//find index of board in user
+		function findBoardIndex(boardId) {
+			for (var i = 0; i < $scope.user.boards.length; i++) {
+				if ($scope.user.boards[i]._id === boardId) {
+					return i;
+				}
+			}
+		}
 	});
-
 
 })();

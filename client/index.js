@@ -8,7 +8,7 @@
 	});
 
 
-	app.config(function($httpProvider) {
+	app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
 		$httpProvider.interceptors.push(function() {
 			return {
 				request: function(req) {
@@ -19,10 +19,7 @@
 				}
 			};
 		});
-	});
 
-
-	app.config(function($stateProvider, $urlRouterProvider) {
 		$stateProvider.state("whatis", {
 			url: "/",
 			templateUrl: "templates/whatis.html"
@@ -32,6 +29,12 @@
 			url: "/loggin",
 			templateUrl: "loggin/loggin.html",
 			controller: "logginCtrl"
+		});
+
+		$stateProvider.state("kanban", {
+			abstract: true,
+			url: "/kanban",
+			templateUrl: "kanban/templates/kanban.html"
 		});
 
 		$stateProvider.state("about", {

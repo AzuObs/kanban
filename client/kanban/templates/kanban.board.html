@@ -2,7 +2,7 @@
   <div class="board-menu">
     <h4>{{board.name}} Members</h4>
     <span ui-sortable="workerSortOpts" class="worker-list worker-selection" ng-model="board.workers">
-      <kb-worker class="worker" ng-repeat="worker in board.workers"></kb-worker>
+      <ui-worker class="worker" ng-repeat="worker in board.workers"></ui-worker>
     </span>
     <div class="form-group">
       <input type="text" class="input-md form-control" placeholder="Add a worker..." ng-model="addWkInput">
@@ -17,8 +17,8 @@
 
   <div class="board-categories">
     <div ui-sortable="categorySortOptions" class="category-list" ng-model="board.categories">
-      <kb-category ng-repeat="category in board.categories">
-      </kb-category>
+      <ui-category ng-repeat="category in board.categories">
+      </ui-category>
     </div>
     <div class="category-input">
       <div class="form-group">
