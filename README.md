@@ -3,10 +3,11 @@
 
 Things left to do:
 -Comments (modal window)
--Fix Bugs
+-add features? (loggin profile? 'landing area' for sortable tasks and categories)
+-Deploy
+-refactor for days
 -Implement unit tests
 -Implement E2E testing
--Deployment Ready?
 -Bower?
 -Extra features I might want?
 

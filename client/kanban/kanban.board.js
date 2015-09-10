@@ -179,19 +179,12 @@
 					var tId = ids.substring(ids.search("t:") + 2, ids.length);
 					var wId = ui.item.sortable.model._id;
 
-					$scope.updateCategories();
 					$scope.user.workers = boardWorkers.slice();
+					$scope.updateCategories();
 				}
 			}
 		};
 
-		$scope.taskModal = function() {
-			var modalInstance = $modal.open({
-				animation: true,
-				templateUrl: 'kanban/templates/kanban.modal.html',
-				controller: 'kanbanController'
-			});
-		};
 
 		//find index of board in user
 		function findBoardIndex(boardId) {
@@ -201,6 +194,63 @@
 				}
 			}
 		}
+
+		$scope.taskModal = function(_user, _board, _cat, _task) {
+			var modalInstance = $modal.open({
+				animation: true,
+				size: "md",
+				templateUrl: 'kanban/templates/kanban.comments.html',
+				controller: 'kanbanCommentsController',
+				resolve: {
+					user: function() {
+						return _user;
+					},
+					board: function() {
+						return _board;
+					},
+					cat: function() {
+						return _cat;
+					},
+					task: function() {
+						return _task;
+					}
+				}
+			});
+		};
+
 	});
+
+
+	kanbanMod.controller("kanbanCommentsController",
+		function($scope, $modalInstance, $log, userService, user, board, cat, task) {
+			$scope.task = task;
+			$scope.category = cat;
+
+			$scope.closeModal = function() {
+				$modalInstance.dismiss();
+			};
+
+
+			$scope.createComment = function(keyEvent) {
+				if (!keyEvent || keyEvent.which === 13) {
+					var params = {
+						content: $scope.commentInput,
+						date: new Date(),
+						userId: user._id,
+						categoryId: cat._id,
+						boardId: board._id,
+						taskId: $scope.task._id
+					};
+
+					userService
+						.createComment(params)
+						.then(function(res) {
+							$scope.task.push(res);
+						}, function(err) {
+							$log.log(err);
+						});
+				}
+			};
+		});
 
 })();

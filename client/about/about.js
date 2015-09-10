@@ -12,8 +12,8 @@
 	});
 
 	aboutModule.controller("aboutCtrl", function($scope) {
-		$scope.resources = ["angularjs", "angular-ui-router", "angular-ui-bootstrap",
-			"bootstrap.css", "nodejs", "expressjs", "mongodb", "mongoose", "github", "heroku"
+		$scope.resources = ["angularjs", "angular-ui-router", "angular-ui-bootstrap", "angular-ui-sortable",
+			"angular-loading-bar", "bootstrap.css", "nodejs", "expressjs", "mongodb", "mongoose", "github", "heroku"
 		];
 	});
 

@@ -7,7 +7,6 @@
 		"kanbanModule",
 		"logginModule",
 		"aboutModule",
-		"errorHandlerModule",
 		"stateInfoModule",
 		"angular-loading-bar"
 	]);

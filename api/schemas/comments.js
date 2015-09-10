@@ -7,9 +7,9 @@
 	var commentSchema = new Schema({
 		content: String,
 		date: Date,
-		worker: {
+		user: {
 			type: Schema.Types.ObjectId,
-			ref: "Worker"
+			ref: "User"
 		}
 	});
 
