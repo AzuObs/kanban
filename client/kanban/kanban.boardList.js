@@ -14,9 +14,7 @@
 					userService
 						.getUser()
 						.then(function(res) {
-							setTimeout(function() {
-								q.resolve(res);
-							}, 1500);
+							q.resolve(res);
 						}, function(err) {
 							q.reject(err);
 						});
