@@ -166,6 +166,7 @@
 			}
 		};
 
+
 		$scope.workerSortOpts = {
 			placeholder: "task",
 			connectWith: ".worker-list",
@@ -252,9 +253,39 @@
 			};
 
 			$scope.ageOfPost = function(t) {
-				console.log(t);
-				return "5 minutes old";
+				if (!t) return "no timestamp";
+
+				t = Date.parse(t);
+				var now = Date.now();
+				var elapsedSeconds = Math.floor((now.valueOf() - t.valueOf()));
+
+
+				var intervals = {
+					year: 1000 * 3600 * 24 * 30 * 12,
+					month: 1000 * 3600 * 24 * 30,
+					day: 1000 * 3600 * 24,
+					hour: 1000 * 3600,
+					minute: 1000 * 60,
+					second: 1000 * 1,
+					milliseconds: 1
+				};
+
+				for (var timeUnit in intervals) {
+					if (Math.floor(elapsedSeconds / intervals[timeUnit]) === 1) {
+						if (timeUnit === "milliseconds") {
+							return "just now";
+						}
+						return Math.floor(elapsedSeconds / intervals[timeUnit]) + " " + timeUnit + " ago";
+					}
+					if (Math.floor(elapsedSeconds / intervals[timeUnit])) {
+						if (timeUnit === "milliseconds") {
+							return "just now";
+						}
+						return Math.floor(elapsedSeconds / intervals[timeUnit]) + " " + timeUnit + "s ago";
+					}
+				}
+
+				return "no valid timestamp";
 			};
 		});
-
 })();

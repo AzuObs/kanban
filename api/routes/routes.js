@@ -22,7 +22,7 @@
 				var task = category.tasks.id(req.body.taskId);
 				var comment = new Comment({
 					content: req.body.content,
-					date: new Date(),
+					date: Date.now(),
 					user: req.body.userId
 				});
 
