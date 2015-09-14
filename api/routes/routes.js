@@ -9,6 +9,32 @@
 	var User = mongoose.model("User", require(process.cwd() + "/schemas/users.js"));
 	var Board = mongoose.model("Board", require(process.cwd() + "/schemas/boards.js"));
 	var Category = mongoose.model("Category", require(process.cwd() + "/schemas/categories.js"));
+	var Comment = mongoose.model("Comment", require(process.cwd() + "/schemas/comments.js"));
+
+
+	exports.createComment = function(req, res, next) {
+		User
+			.findById(req.body.userId)
+			.exec(function(err, user) {
+				if (err) return res.send(err);
+				var board = user.boards.id(req.body.boardId);
+				var category = board.categories.id(req.body.catId);
+				var task = category.tasks.id(req.body.taskId);
+				var comment = new Comment({
+					content: req.body.content,
+					date: new Date(),
+					user: req.body.userId
+				});
+
+				task.comments.push(comment);
+
+				user.save(function(err) {
+					if (err) return res.send(err);
+					res.status(201).json(comment);
+				});
+			});
+	};
+
 
 	exports.lag = function(req, res, next) {
 		setTimeout(function() {

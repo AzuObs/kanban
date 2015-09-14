@@ -235,9 +235,8 @@
 				if (!keyEvent || keyEvent.which === 13) {
 					var params = {
 						content: $scope.commentInput,
-						date: new Date(),
 						userId: user._id,
-						categoryId: cat._id,
+						catId: cat._id,
 						boardId: board._id,
 						taskId: $scope.task._id
 					};
@@ -245,11 +244,16 @@
 					userService
 						.createComment(params)
 						.then(function(res) {
-							$scope.task.push(res);
+							$scope.task.comments.push(res);
 						}, function(err) {
 							$log.log(err);
 						});
 				}
+			};
+
+			$scope.ageOfPost = function(t) {
+				console.log(t);
+				return "5 minutes old";
 			};
 		});
 

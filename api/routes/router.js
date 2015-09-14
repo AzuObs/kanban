@@ -18,13 +18,14 @@
 			next();
 		});
 
+		router.get("/user/:userId", routes.lag, routes.authorize, routes.findUser);
 
 		router.post("/user/loggin", routes.lag, routes.authenticate); //params: username, pwd
 		router.post("/user", routes.lag, routes.authorize, routes.createUser); //params: username, pwd
 		router.post("/board", routes.lag, routes.authorize, routes.createBoard); //params: userId, name
 		router.post("/category", routes.lag, routes.authorize, routes.createCategory); //params: userId, boardId, position, name
 		router.post("/task", routes.lag, routes.authorize, routes.createTask); //params: userId, boardId, categoryId, position, name
-		router.get("/user/:userId", routes.lag, routes.authorize, routes.findUser);
+		router.post("/comments", routes.lag, routes.authorize, routes.createComment); //params: userId, boardId, catId, taskId, content
 
 		router.put("/task/workers", routes.lag, routes.authorize, routes.assignWorker); //params: userId, boardId, categoryId, taskId, workersIds[]
 		router.put("/categories", routes.lag, routes.authorize, routes.reassignCategories); //params: userId, boardId, categories: []

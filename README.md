@@ -2,7 +2,7 @@
 #http://imgur.com/MCcP2Le,Au7AKcj,enodqsO,enaJkvo,UupH8PJ
 
 Things left to do:
--Comments (modal window)
+-add createComment on the backend
 -add features? (loggin profile? 'landing area' for sortable tasks and categories)
 -Deploy
 -refactor for days
