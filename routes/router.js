@@ -21,7 +21,7 @@
 		router.get("/user/:userId", routes.authorize, routes.findUser);
 
 		router.post("/user/loggin", routes.authenticate); //params: username, pwd
-		router.post("/user", routes.authorize, routes.createUser); //params: username, pwd
+		router.post("/user", /*routes.authorize,*/ routes.createUser); //params: username, pwd
 		router.post("/board", routes.authorize, routes.createBoard); //params: userId, name
 		router.post("/category", routes.authorize, routes.createCategory); //params: userId, boardId, position, name
 		router.post("/task", routes.authorize, routes.createTask); //params: userId, boardId, categoryId, position, name
