@@ -188,14 +188,16 @@
 			.findById(req.body.userId)
 			.exec(function(err, user) {
 				if (err) return res.send(err);
-				user.boards.push(new Board({
+				var board = new Board({
 					name: req.body.name,
 					categories: [],
 					workers: []
-				}));
+				});
+
+				user.boards.push(board);
 				user.save(function(err, user) {
 					if (err) return res.send(err);
-					res.status(201).json(user.boards);
+					res.status(201).json(board);
 				});
 			});
 	};
