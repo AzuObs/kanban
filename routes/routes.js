@@ -36,12 +36,6 @@
 	};
 
 
-	exports.lag = function(req, res, next) {
-		setTimeout(function() {
-			next();
-		}, 50);
-	};
-
 	exports.authenticate = function(req, res, next) {
 		User.findOne({
 			username: req.body.username,
