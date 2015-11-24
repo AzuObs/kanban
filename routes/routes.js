@@ -52,6 +52,7 @@
 			});
 
 			return res.status(201).json({
+				username: user.username,
 				userId: user._id,
 				token: token
 			});
@@ -216,6 +217,7 @@
 			});
 
 			res.status(201).json({
+				username: user.username,
 				userId: user._id,
 				token: token
 			});
