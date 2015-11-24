@@ -25,7 +25,7 @@
 		router.post("/board", routes.authorize, routes.createBoard); //params: userId, name
 		router.post("/category", routes.authorize, routes.createCategory); //params: userId, boardId, position, name
 		router.post("/task", routes.authorize, routes.createTask); //params: userId, boardId, categoryId, position, name
-		router.post("/comments", routes.authorize, routes.createComment); //params: userId, boardId, catId, taskId, content
+		router.post("/comment", routes.authorize, routes.createComment); //params: userId, boardId, catId, taskId, content
 
 		router.put("/task/workers", routes.authorize, routes.assignWorker); //params: userId, boardId, categoryId, taskId, workersIds[]
 		router.put("/categories", routes.authorize, routes.reassignCategories); //params: userId, boardId, categories: []
