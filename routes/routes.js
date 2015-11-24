@@ -206,7 +206,18 @@
 			boards: []
 		}), function(err, user) {
 			if (err) return res.send(err);
-			res.status(201).json(user);
+
+			var token = JWT.sign({
+				username: user.username,
+				pwd: user.pwd
+			}, TOKEN_SECRET, {
+				expiresInMinutes: 30
+			});
+
+			res.status(201).json({
+				user: user,
+				token: token
+			});
 		});
 	};
 
