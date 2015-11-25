@@ -19,6 +19,8 @@
 		});
 
 		router.get("/user/:userId", routes.authorize, routes.findUser);
+		router.get("/board/boardId", routes.authorize, routes.findBoard);
+		router.get("/board/user/:userId", routes.authorize, routes.findBoardsForUser);
 
 		router.post("/user/loggin", routes.authenticate);
 		router.post("/user", routes.createUser);
@@ -28,7 +30,7 @@
 		router.post("/comment", routes.authorize, routes.createComment);
 
 		router.put("/task/users", routes.authorize, routes.assignUser);
-		router.put("/categories", routes.authorize, routes.reassignCategories);
+		router.put("/board", routes.authorize, routes.updateBoard);
 
 		router.delete("/category/:boardId/:categoryId", routes.authorize, routes.deleteCategory);
 		router.delete("/task/:boardId/:categoryId/:taskId", routes.authorize, routes.deleteTask);

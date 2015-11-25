@@ -11,6 +11,42 @@
 	var Category = mongoose.model("Category", require(process.cwd() + "/schemas/categories.js"));
 	var Comment = mongoose.model("Comment", require(process.cwd() + "/schemas/comments.js"));
 
+	exports.findBoard = function(req, res, next) {
+		Board
+			.findById(req.params.boardId)
+			.exec(function(err, board) {
+				if (err) return res.send(err);
+
+
+				// populate all the userId areas
+
+				res.status(200).json(board);
+
+			});
+	};
+
+	exports.findBoardsForUser = function(req, res, next) {
+		var totalBoards = [];
+
+		Board
+			.find({
+				admins: {
+					$elemMatch: req.params.userId
+				}
+			})
+			.exec(function(err, boards) {
+				if (err) return err;
+				totalBoards.push(boards);
+			});
+
+		Board
+			.find()
+			.where("members").equals(req.params.userId)
+			.exec(function(err, boards) {
+				if (err) return err;
+				totalBoards.push(boards);
+			});
+	};
 
 	exports.createComment = function(req, res, next) {
 		Board
@@ -50,9 +86,8 @@
 				expiresInMinutes: 30
 			});
 
-			return res.status(201).json({
-				username: user.username,
-				userId: user._id,
+			return res.status(200).json({
+				user: user,
 				token: token
 			});
 		});
@@ -104,15 +139,15 @@
 	};
 
 
-	exports.reassignCategories = function(req, res, next) {
+	exports.updateBoard = function(req, res, next) {
 		Board
-			.findById(req.body.boardId)
+			.findById(req.body.board._id)
 			.exec(function(err, board) {
 				if (err) return res.send(err);
-				board.categories = req.body.categories;
+				board = req.body.board;
 				board.save(function(err) {
 					if (err) return res.send(err);
-					res.status(200).json(board.categories);
+					res.status(200).json(board);
 				});
 			});
 	};
@@ -200,6 +235,7 @@
 
 
 	exports.createUser = function(req, res, next) {
+
 		User.create(new User({
 			username: req.body.username,
 			pwd: req.body.pwd,
@@ -215,8 +251,7 @@
 			});
 
 			res.status(201).json({
-				username: user.username,
-				userId: user._id,
+				user: user,
 				token: token
 			});
 		});
