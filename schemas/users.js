@@ -3,12 +3,35 @@
 
 	var mongoose = require("mongoose");
 	var Schema = mongoose.Schema;
-	var boardSchema = require(process.cwd() + "/schemas/boards.js");
 
 	var userSchema = new Schema({
 		username: String,
+		salt: String,
 		pwd: String,
-		boards: [boardSchema]
+		email: String,
+		hideEmail: Boolean,
+		siteRbac: {
+			type: String,
+			default: "Member"
+		},
+		telephone: String,
+		hideTelephone: Boolean,
+		pictureUrl: {
+			type: String,
+			default: "http://imgur.com/MCcP2Le"
+		},
+		Log: [{
+			action: String,
+			date: Date
+		}],
+		facebookAPI: String,
+		googleAPI: String,
+		twitterAPI: String,
+		gitHubAPI: String,
+		caption: {
+			type: String,
+			default: ""
+		}
 	});
 
 	module.exports = userSchema;

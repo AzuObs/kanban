@@ -13,11 +13,10 @@
 
 
 	exports.createComment = function(req, res, next) {
-		User
-			.findById(req.body.userId)
-			.exec(function(err, user) {
+		Board
+			.findById(req.body.boardId)
+			.exec(function(err, board) {
 				if (err) return res.send(err);
-				var board = user.boards.id(req.body.boardId);
 				var category = board.categories.id(req.body.catId);
 				var task = category.tasks.id(req.body.taskId);
 				var comment = new Comment({
@@ -28,7 +27,7 @@
 
 				task.comments.push(comment);
 
-				user.save(function(err) {
+				board.save(function(err) {
 					if (err) return res.send(err);
 					res.status(201).json(comment);
 				});
@@ -67,27 +66,22 @@
 	};
 
 	exports.deleteBoard = function(req, res, next) {
-		User
-			.findById(req.params.userId)
-			.exec(function(err, user) {
+		Board
+			.findById(req.params.boardId)
+			.remove(function(err, board) {
 				if (err) return res.send(err);
-				user.boards.id(req.params.boardId).remove();
-				user.save(function(err) {
-					if (err) return res.send(err);
-					res.sendStatus(204);
-				});
+				res.sendStatus(204);
 			});
 	};
 
-	exports.deleteTask = function(req, res, next) {
-		User
-			.findById(req.params.userId)
-			.exec(function(err, user) {
+
+	exports.deleteCategory = function(req, res, next) {
+		Board
+			.findById(req.params.boardId)
+			.exec(function(err, board) {
 				if (err) return res.send(err);
-				var board = user.boards.id(req.params.boardId);
-				var category = board.categories.id(req.params.categoryId);
-				category.tasks.id(req.params.taskId).remove();
-				user.save(function(err) {
+				board.categories.id(req.params.categoryId).remove();
+				board.save(function(err) {
 					if (err) return send(err);
 					res.sendStatus(204);
 				});
@@ -95,14 +89,14 @@
 	};
 
 
-	exports.deleteCategory = function(req, res, next) {
-		User
-			.findById(req.params.userId)
-			.exec(function(err, user) {
-				if (err) return res.send(user);
-				var board = user.boards.id(req.params.boardId);
-				board.categories.id(req.params.categoryId).remove();
-				user.save(function(err) {
+	exports.deleteTask = function(req, res, next) {
+		Board
+			.findById(req.params.boardId)
+			.exec(function(err, board) {
+				if (err) return res.send(err);
+				var category = board.categories.id(req.params.categoryId);
+				category.tasks.id(req.params.taskId).remove();
+				board.save(function(err) {
 					if (err) return send(err);
 					res.sendStatus(204);
 				});
@@ -111,13 +105,12 @@
 
 
 	exports.reassignCategories = function(req, res, next) {
-		User
-			.findById(req.body.userId)
-			.exec(function(err, user) {
+		Board
+			.findById(req.body.boardId)
+			.exec(function(err, board) {
 				if (err) return res.send(err);
-				var board = user.boards.id(req.body.boardId);
 				board.categories = req.body.categories;
-				user.save(function(err) {
+				board.save(function(err) {
 					if (err) return res.send(err);
 					res.status(200).json(board.categories);
 				});
@@ -125,22 +118,21 @@
 	};
 
 
-	exports.assignWorker = function(req, res, next) {
-		User
-			.findById(req.body.userId)
-			.exec(function(err, user) {
+	exports.assignUser = function(req, res, next) {
+		Board
+			.findById(req.body.boardId)
+			.exec(function(err, board) {
 				if (err) return res.send(err);
-				var board = user.boards.id(req.body.boardId);
 				var cat = board.categories.id(req.body.categoryId);
 				var task = cat.tasks.id(req.body.taskId);
-				var noWorkers = (task.workers.length === 0);
-				task.workers = req.body.workersIds;
-				user.save(function(err) {
+				var noUsers = (task.users.length === 0);
+				task.users = req.body.usersIds;
+				board.save(function(err) {
 					if (err) return res.send(err);
-					if (noWorkers) {
+					if (noUsers) {
 						res.status(201).json(task);
 					}
-					res.status(200).json(task); //ok //created
+					res.status(200).json(task);
 				});
 			});
 	};
@@ -157,19 +149,18 @@
 
 
 	exports.createTask = function(req, res, next) {
-		User
-			.findById(req.body.userId)
-			.exec(function(err, user) {
+		Board
+			.findById(req.body.boardId)
+			.exec(function(err, board) {
 				if (err) return res.send(err);
-				var board = user.boards.id(req.body.boardId);
 				var category = board.categories.id(req.body.categoryId);
 				category.tasks.push(new Task({
 					name: req.body.name,
 					position: Number(req.body.position),
-					workers: [],
+					users: [],
 					comments: []
 				}));
-				user.save(function(err) {
+				board.save(function(err) {
 					if (err) return res.send(err);
 					res.status(201).json(category.tasks[category.tasks.length - 1]);
 				});
@@ -178,17 +169,16 @@
 
 
 	exports.createCategory = function(req, res, next) {
-		User
-			.findById(req.body.userId)
-			.exec(function(err, user) {
+		Board
+			.findById(req.body.boardId)
+			.exec(function(err, board) {
 				if (err) return res.send(err);
-				var board = user.boards.id(req.body.boardId);
 				board.categories.push(new Category({
 					name: req.body.name,
 					position: Number(req.body.position),
 					tasks: []
 				}));
-				user.save(function(err) {
+				board.save(function(err) {
 					if (err) return res.send(err);
 					res.status(201).json(board.categories[board.categories.length - 1]);
 				});
@@ -197,22 +187,15 @@
 
 
 	exports.createBoard = function(req, res, next) {
-		User
-			.findById(req.body.userId)
-			.exec(function(err, user) {
-				if (err) return res.send(err);
-				var board = new Board({
-					name: req.body.name,
-					categories: [],
-					workers: []
-				});
-
-				user.boards.push(board);
-				user.save(function(err, user) {
-					if (err) return res.send(err);
-					res.status(201).json(board);
-				});
-			});
+		Board.create(new Board({
+			name: req.body.name,
+			admins: [req.body.user],
+			members: [],
+			categories: []
+		}), function(err, board) {
+			if (err) res.send(err);
+			res.status(201).json(board);
+		});
 	};
 
 
@@ -220,7 +203,7 @@
 		User.create(new User({
 			username: req.body.username,
 			pwd: req.body.pwd,
-			boards: []
+			pictureUrl: req.body.pictureUrl
 		}), function(err, user) {
 			if (err) return res.send(err);
 

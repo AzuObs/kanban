@@ -3,15 +3,15 @@
 
 	var mongoose = require("mongoose");
 	var Schema = mongoose.Schema;
-	var workerSchema = require(process.cwd() + "/schemas/workers.js");
+	var userSchema = require(process.cwd() + "/schemas/users.js");
 	var commentSchema = require(process.cwd() + "/schemas/comments.js");
 
 	var taskSchema = new Schema({
 		name: String,
 		position: Number,
-		workers: [{
+		users: [{
 			type: Schema.Types.ObjectId,
-			ref: "Worker"
+			ref: "User"
 		}],
 		comments: [commentSchema]
 	});
