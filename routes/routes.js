@@ -68,10 +68,10 @@
 
 	exports.deleteBoard = function(req, res, next) {
 		User
-			.findById(req.body.userId)
+			.findById(req.params.userId)
 			.exec(function(err, user) {
 				if (err) return res.send(err);
-				user.boards.id(req.body.boardId).remove();
+				user.boards.id(req.params.boardId).remove();
 				user.save(function(err) {
 					if (err) return res.send(err);
 					res.sendStatus(204);

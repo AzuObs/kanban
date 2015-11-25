@@ -32,7 +32,7 @@
 
 		router.delete("/category/:userId/:boardId/:categoryId", routes.authorize, routes.deleteCategory);
 		router.delete("/task/:userId/:boardId/:categoryId/:taskId", routes.authorize, routes.deleteTask);
-		router.delete("/board", routes.authorize, routes.deleteBoard);
+		router.delete("/board/:userId/:boardId", routes.authorize, routes.deleteBoard);
 
 		app.use("/api", router);
 	};
