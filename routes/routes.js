@@ -66,11 +66,24 @@
 		});
 	};
 
+	exports.deleteBoard = function(req, res, next) {
+		User
+			.findById(req.body.userId)
+			.exec(function(err, user) {
+				if (err) return res.send(err);
+				user.boards.id(req.body.boardId).remove();
+				user.save(function(err) {
+					if (err) return res.send(err);
+					res.sendStatus(204);
+				});
+			});
+	};
+
 	exports.deleteTask = function(req, res, next) {
 		User
 			.findById(req.params.userId)
 			.exec(function(err, user) {
-				if (err) return res.send(user);
+				if (err) return res.send(err);
 				var board = user.boards.id(req.params.boardId);
 				var category = board.categories.id(req.params.categoryId);
 				category.tasks.id(req.params.taskId).remove();
