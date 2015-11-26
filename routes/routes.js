@@ -11,6 +11,41 @@
 	var Category = mongoose.model("Category", require(process.cwd() + "/schemas/categories.js"));
 	var Comment = mongoose.model("Comment", require(process.cwd() + "/schemas/comments.js"));
 
+	exports.addMemberToBoard = function(req, res, next) {
+		var userId = "";
+
+		// NOT WORKING
+		User
+			.find({
+				email: req.body.userEmail
+			})
+			.exec(function(err, user) {
+				if (err) return res.status(404).send("err: could not find user");
+				userId = user._id;
+			});
+
+		console.log(req.body);
+		console.log("id:::" + userId);
+
+		//NOT WORKING
+		Board
+			.findById(req.body.boardId)
+			.exec(function(err, board) {
+				//check first that user is not already in the board
+				var index = board.admins.id(userId);
+				if (index !== 0) return res.send(board);
+				index = board.members.id(userId);
+				if (index !== 0) return res.send(board);
+
+				board.members.push(userId);
+				board.save(function(err, board) {
+					if (err) return res.send(err);
+					res.status(200).send(board);
+				});
+			});
+	};
+
+
 	exports.findBoard = function(req, res, next) {
 		Board
 			.findById(req.params.boardId)
