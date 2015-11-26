@@ -140,15 +140,19 @@
 
 
 	exports.updateBoard = function(req, res, next) {
+		//cannot find&replace board, because new object will not have a .save()
+		//delete old, create new board instead
 		Board
 			.findById(req.body.board._id)
+			.remove()
 			.exec(function(err, board) {
 				if (err) return res.send(err);
-				board = req.body.board;
-				board.save(function(err) {
-					if (err) return res.send(err);
-					res.status(200).json(board);
-				});
+			});
+
+		Board
+			.create(req.body.board, function(err, board) {
+				if (err) return res.send(err);
+				res.status(200).json(board);
 			});
 	};
 
