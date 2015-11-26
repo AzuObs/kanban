@@ -19,7 +19,7 @@
 		});
 
 		router.get("/user/:userId", routes.authorize, routes.findUser);
-		router.get("/board/boardId", routes.authorize, routes.findBoard);
+		router.get("/board/:boardId", routes.authorize, routes.findBoard);
 		router.get("/board/user/:userId", routes.authorize, routes.findBoardsForUser);
 
 		router.post("/user/loggin", routes.authenticate);
