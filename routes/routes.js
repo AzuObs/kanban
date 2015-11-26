@@ -14,40 +14,38 @@
 	exports.findBoard = function(req, res, next) {
 		Board
 			.findById(req.params.boardId)
+			.populate("admins")
+			.populate("members")
 			.exec(function(err, board) {
 				if (err) return res.send(err);
-
-
-				// populate all the userId areas
-
 				res.status(200).json(board);
-
 			});
 	};
 
 	exports.findBoardsForUser = function(req, res, next) {
-		var totalBoards = [];
-
 		Board
 			.find({
-				admins: {
-					$elemMatch: req.params.userId
-				}
+				$or: [{
+					members: {
+						$elemMatch: {
+							$eq: req.params.userId
+						}
+					}
+				}, {
+					admins: {
+						$elemMatch: {
+							$eq: req.params.userId
+						}
+					}
+				}]
 			})
+			.populate("admins")
+			.populate("members")
 			.exec(function(err, boards) {
-				if (err) return err;
-				totalBoards.push(boards);
+				if (err) res.send(err);
+				res.status(200).json(boards);
 			});
 
-		Board
-			.find()
-			.where("members").equals(req.params.userId)
-			.exec(function(err, boards) {
-				if (err) return err;
-				totalBoards.push(boards);
-			});
-
-		res.status(200).json(totalBoards);
 	};
 
 	exports.createComment = function(req, res, next) {
@@ -226,7 +224,7 @@
 	exports.createBoard = function(req, res, next) {
 		Board.create(new Board({
 			name: req.body.name,
-			admins: [req.body.user],
+			admins: [req.body.userId],
 			members: [],
 			categories: []
 		}), function(err, board) {
