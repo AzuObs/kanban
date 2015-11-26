@@ -46,6 +46,8 @@
 				if (err) return err;
 				totalBoards.push(boards);
 			});
+
+		res.status(200).json(totalBoards);
 	};
 
 	exports.createComment = function(req, res, next) {
