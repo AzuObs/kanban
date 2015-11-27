@@ -36,6 +36,7 @@
 		router.delete("/category/:boardId/:categoryId", routes.authorize, routes.deleteCategory);
 		router.delete("/task/:boardId/:categoryId/:taskId", routes.authorize, routes.deleteTask);
 		router.delete("/board/:boardId", routes.authorize, routes.deleteBoard);
+		router.delete("/board/:boardId/user/:userId", routes.authorize, routes.deleteUserFromBoard);
 
 		app.use("/api", router);
 	};
