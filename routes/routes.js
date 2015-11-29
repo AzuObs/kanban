@@ -140,7 +140,7 @@
 				username: user.username,
 				pwd: user.pwd
 			}, TOKEN_SECRET, {
-				expiresInMinutes: 30
+				expiresInMinutes: 180
 			});
 
 			return res.status(200).json({
