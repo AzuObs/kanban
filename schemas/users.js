@@ -18,7 +18,7 @@
 		hideTelephone: Boolean,
 		pictureUrl: {
 			type: String,
-			default: "http://imgur.com/MCcP2Le"
+			default: "http://imgur.com/MCcP2Le.jpg"
 		},
 		Log: [{
 			action: String,
