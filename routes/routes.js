@@ -3,8 +3,10 @@
 
 	var TOKEN_SECRET = "danielsiteisbestsite";
 
+
 	var JWT = require("jsonwebtoken");
 	var mongoose = require("mongoose");
+	var Q = require("q");
 	var Task = mongoose.model("Task", require(process.cwd() + "/schemas/tasks.js"));
 	var User = mongoose.model("User", require(process.cwd() + "/schemas/users.js"));
 	var Board = mongoose.model("Board", require(process.cwd() + "/schemas/boards.js"));
@@ -54,17 +56,16 @@
 					.findOne({
 						_id: req.body.boardId
 					})
-					.populate("admins")
-					.populate("members")
+					.populate("admins admins")
 					.exec(function(err, board) {
 						//check first that user is not already in the board
-						if (board.admins.indexOf(userId) != -1) return res.send(board);
-						if (board.members.indexOf(userId) != -1) return res.send(board);
+						if (board.admins.indexOf(userId) != -1) return res.sendStatus(403);
+						if (board.members.indexOf(userId) != -1) return res.sendStatus(403);
 						board.members.push(user);
 						board._v++;
 						board.save(function(err, board) {
 							if (err) return res.send(err);
-							res.status(200).send(board);
+							res.status(200).send(user);
 						});
 					});
 			});
@@ -72,15 +73,69 @@
 
 
 	exports.findBoard = function(req, res, next) {
-		Board
-			.findById(req.params.boardId)
-			.populate("admins")
-			.populate("members")
-			.exec(function(err, board) {
-				if (err) return res.send(err);
-				res.status(200).json(board);
+		findAndPopulateBoard(req.params.boardId)
+			.then(function(board) {
+				return res.status(200).json(board);
+			}, function(err) {
+				return res.send(err);
 			});
 	};
+
+	var findAndPopulateBoard = function(boardId) {
+		var deferBoard = Q.defer();
+
+		var populateTask = function(task) {
+			var deferTask = Q.defer();
+
+			User.populate(task, {
+				path: "users"
+			}, function(err, res) {
+				if (err) defer.reject(err);
+				deferTask.resolve();
+			});
+
+			return deferTask.promise;
+		};
+
+		Board
+			.findById(boardId)
+			.populate("admins members")
+			.exec(function(err, board) {
+				if (err) return deferBoard.reject(err);
+
+				var promises = [];
+				var defers = [];
+
+				if (board.categories.length) {
+					for (var i = 0; i < board.categories.length; i++) {
+						if (board.categories[i].tasks.length) {
+							for (var j = 0; j < board.categories[i].tasks.length; j++) {
+								promises.push(populateTask(board.categories[i].tasks[j]));
+							}
+						}
+					}
+				}
+
+				if (promises.length) {
+					for (var k = 0; k < promises.length; k++) {
+						promises[k].then(function() {}, function(err) {
+							return deferBoard.reject(err);
+						});
+					}
+
+					Q.allSettled(promises)
+						.then(function() {
+							return deferBoard.resolve(board);
+						});
+
+				} else {
+					return deferBoard.resolve(board);
+				}
+			});
+
+		return deferBoard.promise;
+	};
+
 
 	exports.findBoardsForUser = function(req, res, next) {
 		Board
@@ -99,8 +154,7 @@
 					}
 				}]
 			})
-			.populate("admins")
-			.populate("members")
+			.populate("admins admins")
 			.exec(function(err, boards) {
 				if (err) res.send(err);
 				res.status(200).json(boards);
