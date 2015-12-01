@@ -29,7 +29,6 @@
 		router.post("/task", routes.authorize, routes.createTask);
 		router.post("/comment", routes.authorize, routes.createComment);
 
-		router.put("/task/users", routes.authorize, routes.assignUser);
 		router.put("/board", routes.authorize, routes.updateBoard);
 		router.put("/board/members", routes.authorize, routes.addMemberToBoard);
 

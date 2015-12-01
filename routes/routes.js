@@ -54,11 +54,13 @@
 					.findOne({
 						_id: req.body.boardId
 					})
+					.populate("admins")
+					.populate("members")
 					.exec(function(err, board) {
 						//check first that user is not already in the board
-						if (board.admins.indexOf(userId) >= 0) return res.send(board);
-						if (board.members.indexOf(userId) >= 0) return res.send(board);
-						board.members.push(userId);
+						if (board.admins.indexOf(userId) != -1) return res.send(board);
+						if (board.members.indexOf(userId) != -1) return res.send(board);
+						board.members.push(user);
 						board.save(function(err, board) {
 							if (err) return res.send(err);
 							res.status(200).send(board);
@@ -201,36 +203,25 @@
 		//delete old, create new board instead
 		Board
 			.findById(req.body.board._id)
-			.remove()
 			.exec(function(err, board) {
 				if (err) return res.send(err);
-			});
-
-		Board
-			.create(req.body.board, function(err, board) {
-				if (err) return res.send(err);
-				res.status(200).json(board);
-			});
-	};
-
-
-	exports.assignUser = function(req, res, next) {
-		Board
-			.findById(req.body.boardId)
-			.exec(function(err, board) {
-				if (err) return res.send(err);
-				var cat = board.categories.id(req.body.categoryId);
-				var task = cat.tasks.id(req.body.taskId);
-				var noUsers = (task.users.length === 0);
-				task.users = req.body.usersIds;
-				board.save(function(err) {
-					if (err) return res.send(err);
-					if (noUsers) {
-						res.status(201).json(task);
-					}
-					res.status(200).json(task);
+				if (board._v > req.body.board._v) {
+					res.status(403).send("your board is outdated, a newer version exists on the server");
+				}
+				deepCopy(req.body.board, board);
+				board.save(function(err, board) {
+					if (err) res.send(err);
+					res.status(201).send(board);
 				});
 			});
+
+		var deepCopy = function(src, dest) {
+			var srcKeys = Object.keys(src);
+
+			for (var i = 0; i < srcKeys.length; i++) {
+				dest[srcKeys[i]] = src[srcKeys[i]];
+			}
+		};
 	};
 
 
