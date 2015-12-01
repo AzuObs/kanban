@@ -259,26 +259,32 @@
 	exports.updateBoard = function(req, res, next) {
 		//cannot find&replace board, because new object will not have a .save()
 		//delete old, create new board instead
-		Board
-			.findById(req.body.board._id)
-			.exec(function(err, board) {
-				if (err) return res.send(err);
+
+		findAndPopulateBoard(req.body.board._id)
+			.then(function(board) {
 				if (board._v > req.body.board._v) {
 					res.status(403).send("your board is outdated, a newer version exists on the server");
 				}
+
 				deepCopy(req.body.board, board);
 				board._v++;
+
 				board.save(function(err, board) {
 					if (err) res.send(err);
-					res.status(201).send(board);
+
+					res.sendStatus(201);
 				});
+			})
+			.catch(function(err) {
+				res.send(err);
 			});
+
 
 		var deepCopy = function(src, dest) {
 			var srcKeys = Object.keys(src);
 
 			for (var i = 0; i < srcKeys.length; i++) {
-				dest[srcKeys[i]] = src[srcKeys[i]];
+				dest[srcKeys[i]] = JSON.parse(JSON.stringify(src[srcKeys[i]]));
 			}
 		};
 	};
