@@ -31,7 +31,7 @@
 				if (iMember >= 0) {
 					board.members.splice(iMember, 1);
 				}
-
+				board._v++;
 				board.save(function(err, board) {
 					if (err) return res.send(err);
 					res.sendStatus(204);
@@ -61,6 +61,7 @@
 						if (board.admins.indexOf(userId) != -1) return res.send(board);
 						if (board.members.indexOf(userId) != -1) return res.send(board);
 						board.members.push(user);
+						board._v++;
 						board.save(function(err, board) {
 							if (err) return res.send(err);
 							res.status(200).send(board);
@@ -122,6 +123,7 @@
 
 				task.comments.push(comment);
 
+				board._v++;
 				board.save(function(err) {
 					if (err) return res.send(err);
 					res.status(201).json(comment);
@@ -175,6 +177,7 @@
 			.exec(function(err, board) {
 				if (err) return res.send(err);
 				board.categories.id(req.params.categoryId).remove();
+				board._v++;
 				board.save(function(err) {
 					if (err) return send(err);
 					res.sendStatus(204);
@@ -190,6 +193,7 @@
 				if (err) return res.send(err);
 				var category = board.categories.id(req.params.categoryId);
 				category.tasks.id(req.params.taskId).remove();
+				board._v++;
 				board.save(function(err) {
 					if (err) return send(err);
 					res.sendStatus(204);
@@ -209,6 +213,7 @@
 					res.status(403).send("your board is outdated, a newer version exists on the server");
 				}
 				deepCopy(req.body.board, board);
+				board._v++;
 				board.save(function(err, board) {
 					if (err) res.send(err);
 					res.status(201).send(board);
@@ -247,6 +252,7 @@
 					users: [],
 					comments: []
 				}));
+				board._v++;
 				board.save(function(err) {
 					if (err) return res.send(err);
 					res.status(201).json(category.tasks[category.tasks.length - 1]);
@@ -265,6 +271,7 @@
 					position: Number(req.body.position),
 					tasks: []
 				}));
+				board._v++;
 				board.save(function(err) {
 					if (err) return res.send(err);
 					res.status(201).json(board.categories[board.categories.length - 1]);
