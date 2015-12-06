@@ -13,6 +13,49 @@
 	var Category = mongoose.model("Category", require(process.cwd() + "/schemas/categories.js"));
 	var Comment = mongoose.model("Comment", require(process.cwd() + "/schemas/comments.js"));
 
+
+	exports.updateTask = function(req, res, next) {
+		Board
+			.findOne({
+				_id: req.body.boardId
+			})
+			.then(function(originalBoard, err) {
+				if (err) return res.status(404).send(err);
+				findAndPopulateBoard(req.body.boardId)
+					.then(function(board) {
+							var iCat = 0;
+							var iTask = 0;
+
+							for (var i = 0; i < board.categories.length; i++) {
+								if (String(board.categories[i]._id) === String(req.body.catId)) {
+									iCat = i;
+									break;
+								}
+							}
+
+							for (i = 0; i < board.categories[iCat].tasks.length; i++) {
+								if (String(board.categories[iCat].tasks[i]._id) === String(req.body.task._id)) {
+									iTask = i;
+									break;
+								}
+							}
+							board.categories[iCat].tasks[iTask] = req.body.task;
+							board._v++;
+
+							deepCopy(board, originalBoard);
+							console.log("ping");
+							originalBoard.save(function(err, board) {
+								if (err) return res.send(err);
+
+								return res.sendStatus(200);
+							});
+						},
+						function(err) {
+							res.send(err);
+						});
+			});
+	};
+
 	exports.deleteUserFromBoard = function(req, res, next) {
 		Board
 			.findOne({
@@ -88,11 +131,12 @@
 			var deferTask = Q.defer();
 
 			User.populate(task, {
-				path: "users"
-			}, function(err, res) {
-				if (err) defer.reject(err);
-				deferTask.resolve();
-			});
+					path: "users"
+				},
+				function(err, res) {
+					if (err) defer.reject(err);
+					deferTask.resolve();
+				});
 
 			return deferTask.promise;
 		};
@@ -118,7 +162,7 @@
 
 				if (promises.length) {
 					for (var k = 0; k < promises.length; k++) {
-						promises[k].then(function() {}, function(err) {
+						promises[k].then(0, function(err) {
 							return deferBoard.reject(err);
 						});
 					}
@@ -278,15 +322,20 @@
 			.catch(function(err) {
 				res.send(err);
 			});
+	};
 
+	var deepCopy = function(src, dest) {
+		console.log("src: " + src);
 
-		var deepCopy = function(src, dest) {
-			var srcKeys = Object.keys(src);
+		var srcKeys = Object.keys(src);
+		console.log("srcKeys: " + srcKeys);
 
-			for (var i = 0; i < srcKeys.length; i++) {
-				dest[srcKeys[i]] = JSON.parse(JSON.stringify(src[srcKeys[i]]));
-			}
-		};
+		for (var i = 0; i < srcKeys.length; i++) {
+			console.log("src[i]: " + src[srcKeys[i]]);
+			console.log("dest[i]: " + dest[srcKeys[i]]);
+			dest[srcKeys[i]] = JSON.parse(JSON.stringify(src[srcKeys[i]]));
+		}
+		console.log("dc Exit");
 	};
 
 
