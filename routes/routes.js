@@ -19,40 +19,35 @@
 			.findOne({
 				_id: req.body.boardId
 			})
-			.then(function(originalBoard, err) {
+			.then(function(board, err) {
 				if (err) return res.status(404).send(err);
-				findAndPopulateBoard(req.body.boardId)
-					.then(function(board) {
-							var iCat = 0;
-							var iTask = 0;
 
-							for (var i = 0; i < board.categories.length; i++) {
-								if (String(board.categories[i]._id) === String(req.body.catId)) {
-									iCat = i;
-									break;
-								}
-							}
+				var iCat = 0;
+				var iTask = 0;
 
-							for (i = 0; i < board.categories[iCat].tasks.length; i++) {
-								if (String(board.categories[iCat].tasks[i]._id) === String(req.body.task._id)) {
-									iTask = i;
-									break;
-								}
-							}
-							board.categories[iCat].tasks[iTask] = req.body.task;
-							board._v++;
+				for (var i = 0; i < board.categories.length; i++) {
+					if (String(board.categories[i]._id) === String(req.body.catId)) {
+						iCat = i;
+						break;
+					}
+				}
 
-							deepCopy(board, originalBoard);
-							console.log("ping");
-							originalBoard.save(function(err, board) {
-								if (err) return res.send(err);
+				for (i = 0; i < board.categories[iCat].tasks.length; i++) {
+					if (String(board.categories[iCat].tasks[i]._id) === String(req.body.task._id)) {
+						iTask = i;
+						break;
+					}
+				}
 
-								return res.sendStatus(200);
-							});
-						},
-						function(err) {
-							res.send(err);
-						});
+				board.categories[iCat].tasks[iTask]._id = req.body.task._id;
+				board.categories[iCat].tasks[iTask].name = req.body.task.name;
+				board.categories[iCat].tasks[iTask].comments = req.body.task.comments;
+				board.categories[iCat].tasks[iTask].users = req.body.task.users;
+
+				board.save(function(err, board) {
+					if (err) return res.send(err);
+					return res.sendStatus(200);
+				});
 			});
 	};
 
@@ -325,17 +320,11 @@
 	};
 
 	var deepCopy = function(src, dest) {
-		console.log("src: " + src);
-
 		var srcKeys = Object.keys(src);
-		console.log("srcKeys: " + srcKeys);
 
 		for (var i = 0; i < srcKeys.length; i++) {
-			console.log("src[i]: " + src[srcKeys[i]]);
-			console.log("dest[i]: " + dest[srcKeys[i]]);
 			dest[srcKeys[i]] = JSON.parse(JSON.stringify(src[srcKeys[i]]));
 		}
-		console.log("dc Exit");
 	};
 
 
