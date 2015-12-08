@@ -266,21 +266,12 @@
 
 	exports.updateBoard = function(req, res, next) {
 		Board
-			.findById(req.body.board._id)
-			.then(function(board, err) {
-				if (err) return res.status(404).send(err);
-
-				if (board._v > req.body.board._v) {
-					res.status(403).send("your board is outdated, a newer version exists on the server");
-				}
-
-				deepCopy(req.body.board, board);
-				board._v++;
-
-				board.save(function(err, board) {
-					if (err) return res.status(404).send(err);
-					res.sendStatus(201);
-				});
+			.findOneAndUpdate({
+				_id: req.body.board._id
+			}, req.body.board)
+			.exec(function(err, board) {
+				if (err) return res.status(500).send(err);
+				return res.sendStatus(200);
 			});
 	};
 
