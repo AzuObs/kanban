@@ -266,12 +266,25 @@
 
 	exports.updateBoard = function(req, res, next) {
 		Board
-			.findOneAndUpdate({
-				_id: req.body.board._id
-			}, req.body.board)
+			.findById(req.body.board._id)
 			.exec(function(err, board) {
 				if (err) return res.status(500).send(err);
-				return res.sendStatus(200);
+
+				var rBoard = req.body.board;
+				if (board._v > rBoard._v) {
+					return res.status(500).send("board is out of date, please refresh yo page, sir");
+				}
+
+				board.name = rBoard.name;
+				board.categories = rBoard.categories;
+				board.admins = rBoard.admins;
+				board.members = rBoard.members;
+				board.increment();
+
+				board.save(function(err, board) {
+					if (err) return res.status(500).send(err);
+					res.sendStatus(200);
+				});
 			});
 	};
 
