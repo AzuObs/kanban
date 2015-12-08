@@ -31,7 +31,6 @@
 
 		router.put("/board", routes.authorize, routes.updateBoard);
 		router.put("/board/members", routes.authorize, routes.addMemberToBoard);
-		router.put("/task", routes.authorize, routes.updateTask);
 
 		router.delete("/category/:boardId/:categoryId", routes.authorize, routes.deleteCategory);
 		router.delete("/task/:boardId/:categoryId/:taskId", routes.authorize, routes.deleteTask);
