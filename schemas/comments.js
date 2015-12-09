@@ -5,12 +5,10 @@
 	var Schema = mongoose.Schema;
 
 	var commentSchema = new Schema({
+		username: String,
+		userPicUrl: String,
 		content: String,
-		date: Date,
-		user: {
-			type: Schema.Types.ObjectId,
-			ref: "User"
-		}
+		date: Date
 	});
 
 	module.exports = commentSchema;

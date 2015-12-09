@@ -178,12 +178,13 @@
 				var category = board.categories.id(req.body.catId);
 				var task = category.tasks.id(req.body.taskId);
 				var comment = new Comment({
+					username: req.body.username,
+					userPicUrl: req.body.userPicUrl,
 					content: req.body.content,
-					date: Date.now(),
-					user: req.body.userId
+					date: Date.now()
 				});
 
-				task.comments.push(comment);
+				task.comments.unshift(comment);
 
 				board._v++;
 				board.save(function(err) {
