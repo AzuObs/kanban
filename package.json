@@ -18,5 +18,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/AzuObs/kanban"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5"
   }
 }
