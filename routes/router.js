@@ -22,7 +22,7 @@
 		router.get("/board/:boardId", routes.authorize, routes.findBoard);
 		router.get("/board/user/:userId", routes.authorize, routes.findBoardsForUser);
 
-		router.post("/user/loggin", routes.authenticate);
+		router.post("/user/login", routes.authenticate);
 		router.post("/user", routes.createUser);
 		router.post("/board", routes.authorize, routes.createBoard);
 		router.post("/category", routes.authorize, routes.createCategory);
