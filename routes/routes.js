@@ -336,7 +336,6 @@
 				if (err) return res.status(500).send(err);
 				board.categories.push(new Category({
 					name: req.body.name,
-					position: Number(req.body.position),
 					tasks: []
 				}));
 				board._v++;
