@@ -79,7 +79,7 @@
 				return res.status(200).json(board);
 			}, function(err) {
 				console.log("findBoardErr: " + err);
-				return res.status(500).send(err);
+				return res.sendStatus(404);
 			});
 	};
 
