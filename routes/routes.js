@@ -57,7 +57,7 @@
 					.findOne({
 						_id: req.body.boardId
 					})
-					.populate("admins admins")
+					.populate("admins members")
 					.exec(function(err, board) {
 						//check first that user is not already in the board
 						if (board.admins.indexOf(userId) != -1) return res.sendStatus(403);
