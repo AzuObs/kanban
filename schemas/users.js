@@ -8,7 +8,10 @@
 		username: String,
 		salt: String,
 		pwd: String,
-		email: String,
+		email: {
+			type: String,
+			default: ""
+		},
 		hideEmail: Boolean,
 		siteRbac: {
 			type: String,
