@@ -20,6 +20,10 @@
 				_id: req.params.boardId
 			})
 			.exec(function(err, board) {
+				if(err || !board){
+					return res.send(err);
+				}
+
 				var iAdmin = board.admins.indexOf(req.params.userId);
 				var iMember = board.members.indexOf(req.params.userId);
 
@@ -43,6 +47,7 @@
 
 	};
 
+
 	// has to be idempotent
 	exports.addMemberToBoard = function(req, res, next) {
 		User
@@ -50,7 +55,10 @@
 				email: req.body.userEmail
 			})
 			.exec(function(err, user) {
-				if (err) return res.status(404).send("err: could not find user");
+				if (err || !user) {
+					return res.status(404).send("err: could not find user");
+				}
+
 				var userId = user._id;
 
 				Board
@@ -59,13 +67,19 @@
 					})
 					.populate("admins members")
 					.exec(function(err, board) {
+						if(err || !board) {
+							return err.send(err);
+						}
+
 						//check first that user is not already in the board
 						if (board.admins.indexOf(userId) != -1) return res.sendStatus(403);
 						if (board.members.indexOf(userId) != -1) return res.sendStatus(403);
 						board.members.push(user);
 						board._v++;
 						board.save(function(err, board) {
-							if (err) return res.status(500).send(err);
+							if (err || !board) {
+								return res.status(500).send(err);
+							}
 							res.status(200).send(user);
 						});
 					});
@@ -174,7 +188,10 @@
 		Board
 			.findById(req.body.boardId)
 			.exec(function(err, board) {
-				if (err) return res.status(500).send(err);
+				if (err || !board){
+				 return res.status(500).send(err);
+				}
+
 				var category = board.categories.id(req.body.catId);
 				var task = category.tasks.id(req.body.taskId);
 				var comment = new Comment({
@@ -219,7 +236,10 @@
 
 	exports.authorize = function(req, res, next) {
 		JWT.verify(req.headers.token, TOKEN_SECRET, function(err, decoded) {
-			if (err) return res.sendStatus(401);
+			if (err) {
+				return res.sendStatus(401);
+			}
+
 			next();
 		});
 	};
@@ -228,7 +248,10 @@
 		Board
 			.findById(req.params.boardId)
 			.remove(function(err, board) {
-				if (err) return res.status(500).send(err);
+				if (err || !board){
+				 return res.status(500).send(err);
+				}
+
 				res.sendStatus(204);
 			});
 	};
@@ -238,7 +261,10 @@
 		Board
 			.findById(req.params.boardId)
 			.exec(function(err, board) {
-				if (err) return res.status(500).send(err);
+				if (err || !board) {
+					return res.status(500).send(err);
+				}
+
 				board.categories.id(req.params.categoryId).remove();
 				board._v++;
 				board.save(function(err) {
@@ -253,7 +279,10 @@
 		Board
 			.findById(req.params.boardId)
 			.exec(function(err, board) {
-				if (err) return res.status(500).send(err);
+				if (err || !board){
+					return res.status(500).send(err);
+				}
+
 				var category = board.categories.id(req.params.categoryId);
 				category.tasks.id(req.params.taskId).remove();
 				board._v++;
@@ -269,7 +298,9 @@
 		Board
 			.findById(req.body.board._id)
 			.exec(function(err, board) {
-				if (err) return res.status(500).send(err);
+				if (err || !board){
+				 return res.status(500).send(err);
+}
 
 				var rBoard = req.body.board;
 				if (board._v > rBoard._v) {
@@ -367,7 +398,9 @@
 			pwd: req.body.pwd,
 			pictureUrl: req.body.pictureUrl
 		}), function(err, user) {
-			if (err) return res.status(500).send(err);
+			if (err || !user) {
+				return res.status(500).send(err);
+			}
 
 			var token = JWT.sign({
 				username: user.username,
