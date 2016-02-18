@@ -11,8 +11,8 @@ mongoose.connection.on("error", function(err) {
   console.log("mongoose didn't connect: " + err);
 });
 mongoose.connection.on("open", function() {
-  // reset database periodically because this website is only a "demo/prototype"
-  resetDB(5 * 60 * 1000);
+  // reset database every hour because this website is only a "demo/prototype"
+  resetDB(process.env.RESET_INTERVAL || 1 * 60 * 60 * 1000);
 });
 
 app.listen(process.env.PORT || 8000);
