@@ -180,7 +180,7 @@
       .populate("admins members")
       .exec(function(err, boards) {
         if (err || !boards.length) {
-          res.sendStatus(404);
+          return res.sendStatus(404);
         }
         res.status(200).json(boards);
       });
