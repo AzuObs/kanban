@@ -12,7 +12,7 @@ mongoose.connection.on("error", function(err) {
 });
 mongoose.connection.on("open", function() {
   // reset database every hour because this website is only a "demo/prototype"
-  resetDB(process.env.RESET_INTERVAL || 1 * 60 * 60 * 1000);
+  resetDB(process.env.DB_RESET_INTERVAL || 1 * 60 * 60 * 1000);
 });
 
 app.listen(process.env.PORT || 8000);
