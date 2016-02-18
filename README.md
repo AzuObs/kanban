@@ -1,7 +1,3 @@
-# imgur links to my user pictureUrls!
-#http://imgur.com/MCcP2Le,Au7AKcj,enodqsO,enaJkvo,UupH8PJ
+Backend for my kanban_client project.
 
-
-
-Next Project:
--Make Angular Lite
+Simple API (json) server with Node, Express and Mongoose (mongodb). 
