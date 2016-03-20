@@ -56,7 +56,8 @@
         "users": [2, 1, 0, 3],
         "comments": [{
           "user": 4,
-          "content": "..."
+          "content": "...",
+          "date": Date.now() - 50 * 60 * 1000
         }]
       }]
     }],
